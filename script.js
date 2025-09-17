@@ -131,6 +131,38 @@ squares[pacmanCurrentIndex].classList.add('pac-man')
     }
     break
     case 'ArrowUp':
+        if (
+            pacmanCurrentIndex - width >= 0 &&
+            !squares[pacmanCurrentIndex - width].classList.contains('wall') &&
+            !squares[pacmanCurrentIndex - width].classList.contains('ghost-lair')
+        ) {
+            pacmanCurrentIndex -= width
+        }
+        break
+    case 'ArrowDown':
+        if (
+            pacmanCurrentIndex + width < width * width &&
+            !squares[pacmanCurrentIndex + width].classList.contains('wall') &&
+            !squares[pacmanCurrentIndex + width].classList.contains('ghost-lair')
+        ) {
+            pacmanCurrentIndex += width
+        }
+        break
+    
+    }
+    squares[pacmanCurrentIndex].classList.add('pac-man')
+    
+    document.addEventListener('keyup', movePacman);
+
+
+    pacDotEaten();
+    // What happens when you eat a pac-dot
+    function pacDotEaten() {
+        if (squares[pacmanCurrentIndex].classList.contains('pac-dot')) {
+            score++;
+            scoreDisplay.innerHTML = score;
+            squares[pacmanCurrentIndex].classList.remove('pac-dot')
+        }
 
 
 
