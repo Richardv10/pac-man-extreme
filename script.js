@@ -52,6 +52,7 @@
 function createBoard() {
 for (let i = 0; i < layout.length; i++) {
     const square = document.createElement('div');
+    square.id = i; // Assign an ID to each square for easier reference later
     grid.appendChild(square);
 
         // Store a reference to the square in our 'squares' array
@@ -62,6 +63,7 @@ for (let i = 0; i < layout.length; i++) {
     if(layout[i] === 0) {
         squares[i].classList.add('pac-dot')
     }
+
 }
 
 }
@@ -188,29 +190,13 @@ class Ghost {
         this.isScared = false;
         this.timerId = NaN;
     }
-}
+    if(layout[i] === 2) {
+        squares[i].classList.add('ghost-lair')
+   }
+   if(layout[i] === 3) {
+        squares[i].classList.add('power-pellet')
+    }
 
-// all my Ghosts
-ghosts = [
-    new Ghost('blinky', 348, 250),
-    new Ghost('pinky', 376, 400),
-    new Ghost('inky', 351, 300),
-    new Ghost('clyde', 379, 500)
-]
-
-// draw my Ghosts onto the grid (the method "forEach" executes a provided function once for each array element, take note of the closing brackets after the codeblock)
-
-ghosts.forEach(ghost => {
-    squares[ghost.currentIndex].classList.add(ghost.className);
-    squares[ghost.currentIndex].classList.add('ghost');
-});
-
-// move the Ghosts randomly (We achieve this by using the Math.random() function to select a random direction from the directions array using Math floor and the length of the array.)
-ghosts.forEach(ghost => moveGhost(ghost));
-
-function moveGhost(ghost) {
-    const directions = [-1, +1, width, -width];
-    const direction = directions[Math.floor(Math.random() * directions.length)];
 
     ghost.timerId = setInterval(function() {
         // if the next square your ghost is going to go to does NOT contain a wall and does NOT contain a ghost, you can go there
@@ -262,7 +248,37 @@ function checkForGameOver() {
         
 
     
+
+}
+
 }
 // Call the function to build the entire board when the game starts
 createBoard()
 
+
+
+//create Characters
+//draw pac-man onto the board
+let pacmanCurrentIndex = 490;   //490 is the starting position of pac-man
+squares[pacmanCurrentIndex].classList.add('pac-man');
+
+//move pacman
+function movePacman(e) {
+    squares[pacmanCurrentIndex].classList.remove('pac-man');
+    switch (e.key) {
+        case 'ArrowLeft':
+            pacmanCurrentIndex -=1
+            break;
+        case 'ArrowRight':
+            pacmanCurrentIndex +=1
+            break;
+        case 'ArrowUp':
+            pacmanCurrentIndex -=width
+            break;
+        case 'ArrowDown':
+            pacmanCurrentIndex +=width
+            break;
+    }
+    squares[pacmanCurrentIndex].classList.add('pac-man')
+}
+document.addEventListener('keyup', movePacman);
