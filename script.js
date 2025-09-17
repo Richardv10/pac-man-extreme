@@ -64,6 +64,7 @@ for (let i = 0; i < layout.length; i++) {
     }
 }
 
+}
 
 
 
@@ -143,12 +144,21 @@ for (let i = 0; i < layout.length; i++) {
 
 
 
+// what happens when you eat a power pellet
+function powerPelletEaten() {
+    if (squares[pacmanCurrentIndex].classList.contains('power-pellet')) {
+        score += 10;
+        scoreDisplay.innerHTML = score;
+        ghosts.forEach(ghost => ghost.isScared = true);
+        setTimeout(unScareGhosts, 10000)
+        squares[pacmanCurrentIndex].classList.remove('power-pellet')
+    }
+}
 
-
-
-
-
-
+// make the ghosts chill the fuck out
+function unScareGhosts() {
+    ghosts.forEach(ghost => ghost.isScared = false);
+}
 
 
 
@@ -203,17 +213,56 @@ function moveGhost(ghost) {
     const direction = directions[Math.floor(Math.random() * directions.length)];
 
     ghost.timerId = setInterval(function() {
-        squares[ghost.currentIndex].classList.remove('ghost');
+        // if the next square your ghost is going to go to does NOT contain a wall and does NOT contain a ghost, you can go there
+        if  (!squares[ghost.currentIndex + direction].classList.contains('ghost') &&
+             !squares[ghost.currentIndex + direction].classList.contains('wall')){
+        
+            squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost');
         ghost.currentIndex += direction;
         squares[ghost.currentIndex].classList.add('ghost', ghost.className, 'ghost');
+        // else find a new direction to try
+        } else direction = directions[Math.floor(Math.random() * directions.length)];
+        // if the ghost is currently scared
+        if (ghost.isScared) {
+            squares[ghost.currentIndex].classList.add('scared-ghost');
+        }
+        // if the ghost is scared and pacman is on it
+        if (ghost.isScared && squares[ghost.currentIndex].classList.contains('pac-man')) {
+            squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost');
+            ghost.currentIndex = ghost.startIndex;
+            score +=100;
+            scoreDisplay.innerHTML = score;
+            squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+        }
+        checkForGameOver();
     }, ghost.speed);
 }
 
+// check for a game over
+function checkForGameOver() {
+    if (squares[pacmanCurrentIndex].classList.contains('ghost') && 
+        !squares[pacmanCurrentIndex].classList.contains('scared-ghost')) {
+        // stop each ghost
+        ghosts.forEach(ghost => clearInterval(ghost.timerId));
+        document.removeEventListener('keyup', movePacman);
+        //replace this with fancy react modal later 
+        setTimeout(function(){alert("Game Over!");}, 500)
+    }
+
+    // check for a win - more to be added later
+    if (score === 274) {
+        // stop each ghost
+        ghosts.forEach(ghost => clearInterval(ghost.timerId));
+        document.removeEventListener('keyup', movePacman);
+        //replace this with fancy react modal later 
+        setTimeout(function(){alert("You Have Won!");}, 500)
+    }
+
+
         
 
-    }
+    
 }
-
 // Call the function to build the entire board when the game starts
 createBoard()
 
