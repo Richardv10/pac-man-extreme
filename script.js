@@ -43,11 +43,29 @@
     // 3 - power-pellet
     // 4 - empty
 
+// This array will store references to all the <div> elements that make up the grid.
+// Each element in 'squares' corresponds to one entry in the 'layout' array.
+
+     const squares = []
     // create board by looping over the layout array and creating a div for each item in the array. Depending on the value of the item, we add the corresponding class to the div. Notice the termination of the loop with 'i < layout.length' to ensure we cover all items in the array. 
      
 function createBoard() {
 for (let i = 0; i < layout.length; i++) {
     const square = document.createElement('div');
     grid.appendChild(square);
+
+        // Store a reference to the square in our 'squares' array
+        // This allows us to later manipulate or update the square (e.g., add classes for pac-dots, walls, etc.)
+    squares.push(square);
+
+    // Add layout to the board
+    if(layout[i] === 0) {
+        squares[i].classList.add('pac-dot')
+    }
+
     }
 }
+
+// Call the function to build the entire board when the game starts
+createBoard()
+
