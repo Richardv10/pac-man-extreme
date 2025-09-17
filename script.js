@@ -52,6 +52,7 @@
 function createBoard() {
 for (let i = 0; i < layout.length; i++) {
     const square = document.createElement('div');
+    square.id = i; // Assign an ID to each square for easier reference later
     grid.appendChild(square);
 
         // Store a reference to the square in our 'squares' array
@@ -62,10 +63,46 @@ for (let i = 0; i < layout.length; i++) {
     if(layout[i] === 0) {
         squares[i].classList.add('pac-dot')
     }
+    if(layout[i] === 1) {
+        squares[i].classList.add('wall')
 
     }
-}
+    if(layout[i] === 2) {
+        squares[i].classList.add('ghost-lair')
+   }
+   if(layout[i] === 3) {
+        squares[i].classList.add('power-pellet')
+    }
 
+}
+}
 // Call the function to build the entire board when the game starts
 createBoard()
 
+
+
+//create Characters
+//draw pac-man onto the board
+let pacmanCurrentIndex = 490;   //490 is the starting position of pac-man
+squares[pacmanCurrentIndex].classList.add('pac-man');
+
+//move pacman
+function movePacman(e) {
+    squares[pacmanCurrentIndex].classList.remove('pac-man');
+    switch (e.key) {
+        case 'ArrowLeft':
+            pacmanCurrentIndex -=1
+            break;
+        case 'ArrowRight':
+            pacmanCurrentIndex +=1
+            break;
+        case 'ArrowUp':
+            pacmanCurrentIndex -=width
+            break;
+        case 'ArrowDown':
+            pacmanCurrentIndex +=width
+            break;
+    }
+    squares[pacmanCurrentIndex].classList.add('pac-man')
+}
+document.addEventListener('keyup', movePacman);
