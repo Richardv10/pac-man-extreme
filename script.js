@@ -44,10 +44,158 @@
     // 4 - empty
 
     // create board by looping over the layout array and creating a div for each item in the array. Depending on the value of the item, we add the corresponding class to the div. Notice the termination of the loop with 'i < layout.length' to ensure we cover all items in the array. 
-     
+
 function createBoard() {
 for (let i = 0; i < layout.length; i++) {
     const square = document.createElement('div');
     grid.appendChild(square);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Ghost Constructor (remember classes start with a capital letter) This special kind of function is used to create multiple objects with the same properties and methods.
+class Ghost {
+    constructor(className, startIndex, speed) {
+        this.className = className;
+        this.startIndex = startIndex;
+        this.speed = speed;
+        this.currentIndex = startIndex;
+        this.isScared = false;
+        this.timerId = NaN;
+    }
+}
+
+// all my Ghosts
+ghosts = [
+    new Ghost('blinky', 348, 250),
+    new Ghost('pinky', 376, 400),
+    new Ghost('inky', 351, 300),
+    new Ghost('clyde', 379, 500)
+]
+
+// draw my Ghosts onto the grid (the method "forEach" executes a provided function once for each array element, take note of the closing brackets after the codeblock)
+
+ghosts.forEach(ghost => {
+    squares[ghost.currentIndex].classList.add(ghost.className);
+    squares[ghost.currentIndex].classList.add('ghost');
+});
+
+// move the Ghosts randomly (We achieve this by using the Math.random() function to select a random direction from the directions array using Math floor and the length of the array.)
+ghosts.forEach(ghost => moveGhost(ghost));
+
+function moveGhost(ghost) {
+    const directions = [-1, +1, width, -width];
+    const direction = directions[Math.floor(Math.random() * directions.length)];
+
+    ghost.timerId = setInterval(function() {
+        squares[ghost.currentIndex].classList.remove('ghost');
+        ghost.currentIndex += direction;
+        squares[ghost.currentIndex].classList.add('ghost', ghost.className, 'ghost');
+    }, ghost.speed);
+}
+
+        
+
