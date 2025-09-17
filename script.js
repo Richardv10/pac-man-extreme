@@ -48,7 +48,7 @@
 
      const squares = []
     // create board by looping over the layout array and creating a div for each item in the array. Depending on the value of the item, we add the corresponding class to the div. Notice the termination of the loop with 'i < layout.length' to ensure we cover all items in the array. 
-     
+
 function createBoard() {
 for (let i = 0; i < layout.length; i++) {
     const square = document.createElement('div');
@@ -63,8 +63,6 @@ for (let i = 0; i < layout.length; i++) {
     if(layout[i] === 0) {
         squares[i].classList.add('pac-dot')
     }
-    if(layout[i] === 1) {
-        squares[i].classList.add('wall')
 
     }
     if(layout[i] === 2) {
