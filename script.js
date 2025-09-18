@@ -268,3 +268,7 @@ function checkForWin() {
 //draw pac-man onto the board
 let pacmanCurrentIndex = 490;   //490 is the starting position of pac-man
 squares[pacmanCurrentIndex].classList.add('pac-man');
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
