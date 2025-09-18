@@ -1,50 +1,33 @@
     const scoreDisplay = document.getElementById('score');
-    // const levelDisplay = document.getElementById('level');
+    const levelDisplay = document.getElementById('level');
     const width = 28;
     const height = 28;
     let score = 0;
+    let levelNumber = 1 // Start at level 1
+    let currentLevel = levelNumber; // Track the current level
+    levelDisplay.innerHTML = currentLevel
     const grid = document.querySelector('.grid');
 
-/* The array below represents the layout of the grid, where each number corresponds to a different type of square (the legend is below). This approach of using a static array simplifies the project, if we have time we can mutate it for other levels.*/
+   function getLevel(levelNumber) {
+        if (levelNumber === 1) {
+            return layout1;
+        } 
+        else if (levelNumber === 2) {
+            return layout2;
+        } 
+        else if (levelNumber === 3) {
+            return layout3;
+        }
+        else {
+            // Default to level 1 if invalid level number
+            return layout1;
+        }
+    }
 
-     const layout = [
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
-        1, 3, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 3, 1,
-        1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
-        1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 2, 2, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 2, 2, 2, 2, 2, 2, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        4, 4, 4, 4, 4, 4, 0, 0, 0, 4, 1, 2, 2, 2, 2, 2, 2, 1, 4, 0, 0, 0, 4, 4, 4, 4, 4, 4,
-        1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 2, 2, 2, 2, 2, 2, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 2, 2, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 2, 2, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
-        1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
-        1, 3, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 3, 1,
-        1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1,
-        1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1,
-        1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,
-        1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-    ]
+    let layout = getLevel(levelNumber); // Sets the map layout based on the current level number
 
-    // 0 - pac-dots
-    // 1 - wall
-    // 2 - ghost-lair
-    // 3 - power-pellet
-    // 4 - empty
 
-// This array will store references to all the <div> elements that make up the grid.
+// The levels.js file stores all the levels as arrays. Here we choose which level to load.
 // Each element in 'squares' corresponds to one entry in the 'layout' array.
 
      const squares = []
@@ -64,7 +47,7 @@ function createBoard() {
         if(layout[i] === 0) {
         squares[i].classList.add('pac-dot')
         }
- 
+
         if(layout[i] === 1) {
         squares[i].classList.add('wall')
         }
@@ -252,12 +235,35 @@ function checkForGameOver() {
    // check for a win
    
 function checkForWin() {
-    if (score === 274) {
+    if (score === 274 && levelNumber === 3) {
         // stop each ghost
         ghosts.forEach(ghost => clearInterval(ghost.timerId));
         document.removeEventListener('keyup', movePacman);
         //replace this with fancy react modal later 
-        setTimeout(function(){alert("You Have Won!");}, 500)
+        setTimeout(function(){alert("You Have Completed Pacman Extreme! Increase the difficulty on newgame+ by following this link https://store.steampowered.com/app/374320/DARK_SOULS_III/ ");}, 500)
+    }
+    else if (score === 5 && levelNumber < 3) {
+        // stop each ghost
+        ghosts.forEach(ghost => clearInterval(ghost.timerId));
+        setTimeout(function(){alert("You Have ruthlessly dominated Level " + levelNumber + "! Get ready for the next nailbiting adventure!");}, 500)
+        levelNumber += 1; // Increase the level number
+        score = 0; // Reset score for the new level
+        scoreDisplay.innerHTML = score; // Update the score display
+        levelDisplay.innerHTML = levelNumber; // Update the level display
+        layout = getLevel(levelNumber); // Load the new level layout
+        squares.forEach(square => square.className = ''); // Clear the board
+        createBoard(); // Recreate the board with the new layout
+        pacmanCurrentIndex = 490; // Reset Pacman's position
+        squares[pacmanCurrentIndex].classList.add('pac-man');
+        
+        ghosts.forEach(ghost => {
+            ghost.currentIndex = ghost.startIndex;
+            squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+            moveGhost(ghost);
+        });
+        
+        // Re-enable pacman movement
+        document.addEventListener('keyup', movePacman);
     }
 }
 
@@ -268,4 +274,3 @@ function checkForWin() {
 //draw pac-man onto the board
 let pacmanCurrentIndex = 490;   //490 is the starting position of pac-man
 squares[pacmanCurrentIndex].classList.add('pac-man');
-
