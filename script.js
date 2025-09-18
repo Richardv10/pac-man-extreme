@@ -1,11 +1,11 @@
 const scoreDisplay = document.getElementById("score");
-const levelDisplay = document.getElementById('level');
+const levelDisplay = document.getElementById("level");
 const width = 28;
 const height = 28;
 let score = 0;
-    let levelNumber = 1 // Start at level 1
-    let currentLevel = levelNumber; // Track the current level
-    levelDisplay.innerHTML = currentLevel
+let levelNumber = 1; // Start at level 1
+let currentLevel = levelNumber; // Track the current level
+levelDisplay.innerHTML = currentLevel;
 const grid = document.querySelector(".grid");
 
 const PACMAN_START = 490;
@@ -16,6 +16,18 @@ const livesDisplay = document.getElementById("lives");
 let lives = 3;
 livesDisplay.textContent = lives;
 
+function getLevel(levelNumber) {
+  if (levelNumber === 1) {
+    return layout1;
+  } else if (levelNumber === 2) {
+    return layout2;
+  } else if (levelNumber === 3) {
+    return layout3;
+  } else {
+    // Default to level 1 if invalid level number
+    return layout1;
+  }
+}
 // Trash Compactor Mode Variables
 let trashCompactorMode = false;
 let compactorTopWall = 0; // Row of top compactor wall
@@ -26,31 +38,13 @@ let compactorInterval = null;
 // Game State Variables
 let gameStarted = false;
 let gameRunning = false;
-
-
-
-
-   function getLevel(levelNumber) {
-        if (levelNumber === 1) {
-            return layout1;
-        } 
-        else if (levelNumber === 2) {
-            return layout2;
-        } 
-        else if (levelNumber === 3) {
-            return layout3;
-        }
-        else {
-            // Default to level 1 if invalid level number
-            return layout1;
-        }
-    }
-
-    let layout = getLevel(levelNumber); // Sets the map layout based on the current level number
-
+let layout = getLevel(levelNumber); // Sets the map layout based on the current level number
 
 // The levels.js file stores all the levels as arrays. Here we choose which level to load.
 // Each element in 'squares' corresponds to one entry in the 'layout' array.
+
+const DIR_CLASSES = ["dir-left", "dir-right", "dir-up", "dir-down"];
+let currentDirection = "right"; // default facing
 
 const squares = [];
 // create board by looping over the layout array and creating a div for each item in the array. Depending on the value of the item, we add the corresponding class to the div. Notice the termination of the loop with 'i < layout.length' to ensure we cover all items in the array.
@@ -275,8 +269,18 @@ function updateStartResetButton() {
 
 function placePacmanIfAlive() {
   if (lives > 0) {
-    squares[pacmanCurrentIndex].classList.add('pac-man');
+    squares[pacmanCurrentIndex].classList.remove(...DIR_CLASSES);
+    squares[pacmanCurrentIndex].classList.add(
+      "pac-man",
+      `dir-${currentDirection}`
+    );
   }
+}
+
+function addPacmanWithDirection(dir) {
+  currentDirection = dir;
+  squares[pacmanCurrentIndex].classList.remove(...DIR_CLASSES);
+  squares[pacmanCurrentIndex].classList.add("pac-man", `dir-${dir}`);
 }
 
 function gameOver() {
@@ -294,6 +298,7 @@ function gameOver() {
   updateStartResetButton();
   
   setTimeout(function(){ alert("Game Over!"); }, 200);
+
 }
 
 function handleLifeLoss() {
@@ -301,43 +306,43 @@ function handleLifeLoss() {
   lives--;
   livesDisplay.textContent = lives;
 
-  if (lives === 1) {
-    squares[pacmanCurrentIndex].classList.remove('pac-man');
+  if (lives <= 0) {
+    squares[pacmanCurrentIndex].classList.remove("pac-man", ...DIR_CLASSES);
     gameOver();
     return;
   }
 
   // brief invulnerability
   isInvulnerable = true;
-  setTimeout(() => { isInvulnerable = false; }, 1000);
+  setTimeout(() => {
+    isInvulnerable = false;
+  }, 1000);
 
   // reset Pac-Man position
-  squares[pacmanCurrentIndex].classList.remove('pac-man');
+  squares[pacmanCurrentIndex].classList.remove("pac-man", ...DIR_CLASSES);
   pacmanCurrentIndex = PACMAN_START;
-  placePacmanIfAlive();
-
- 
+  addPacmanWithDirection("right"); // respawn facing right
 }
 
 function movePacman(e) {
   e.preventDefault();
-  let direction = '';
-  
+  let direction = "";
+
   // Determine direction from keyboard or touch
   if (e.key) {
     // Keyboard input
     switch (e.key) {
       case "ArrowLeft":
-        direction = 'left';
+        direction = "left";
         break;
       case "ArrowRight":
-        direction = 'right';
+        direction = "right";
         break;
       case "ArrowDown":
-        direction = 'down';
+        direction = "down";
         break;
       case "ArrowUp":
-        direction = 'up';
+        direction = "up";
         break;
       default:
         return; // Exit if not an arrow key
@@ -346,13 +351,13 @@ function movePacman(e) {
     // Touch input - direction passed to the function directly, extra directly. I will not tolerate doubts on my directionality
     direction = e;
   }
-  
+
   movePacmanInDirection(direction);
 }
 
 function movePacmanInDirection(direction) {
-  squares[pacmanCurrentIndex].classList.remove("pac-man");
-  
+  squares[pacmanCurrentIndex].classList.remove("pac-man", ...DIR_CLASSES);
+
   switch (direction) {
     case "left":
       if (
@@ -403,7 +408,7 @@ function movePacmanInDirection(direction) {
       break;
   }
 
-  squares[pacmanCurrentIndex].classList.add("pac-man");
+  addPacmanWithDirection(direction);
 
   pacDotEaten();
   powerPelletEaten();
@@ -415,19 +420,33 @@ function movePacmanInDirection(direction) {
 // document.addEventListener("keyup", movePacman);
 
 // Mobile Touch Controls
-document.addEventListener('DOMContentLoaded', function() {
-  const upBtn = document.getElementById('up-btn');
-  const downBtn = document.getElementById('down-btn');
-  const leftBtn = document.getElementById('left-btn');
-  const rightBtn = document.getElementById('right-btn');
-  
-  if (upBtn) upBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('up'); });
-  if (downBtn) downBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('down'); });
-  if (leftBtn) leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('left'); });
-  if (rightBtn) rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('right'); });
-  
-});
+document.addEventListener("DOMContentLoaded", function () {
+  const upBtn = document.getElementById("up-btn");
+  const downBtn = document.getElementById("down-btn");
+  const leftBtn = document.getElementById("left-btn");
+  const rightBtn = document.getElementById("right-btn");
 
+  if (upBtn)
+    upBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("up");
+    });
+  if (downBtn)
+    downBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("down");
+    });
+  if (leftBtn)
+    leftBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("left");
+    });
+  if (rightBtn)
+    rightBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("right");
+    });
+});
 
 // What happens when you eat a pac-dot
 function pacDotEaten() {
@@ -535,13 +554,14 @@ function moveGhost(ghost) {
 }
 // check for a game over
 function checkForGameOver() {
-  const onGhost = squares[pacmanCurrentIndex].classList.contains('ghost');
-  const onScared = squares[pacmanCurrentIndex].classList.contains('scared-ghost');
+  const onGhost = squares[pacmanCurrentIndex].classList.contains("ghost");
+  const onScared =
+    squares[pacmanCurrentIndex].classList.contains("scared-ghost");
 
   if (onGhost && !onScared && !isInvulnerable) {
     handleLifeLoss();
   }
-  if (lives === 0) { gameOver()}
+
 }
 // check for a win
 
@@ -585,4 +605,4 @@ function checkForWin() {
 //create Characters
 //draw pac-man onto the board
 let pacmanCurrentIndex = PACMAN_START;
-placePacmanIfAlive();
+addPacmanWithDirection('right'); // spawn facing right on load
