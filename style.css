@@ -31,6 +31,7 @@ body {
     width: calc(100% / 28); /* 28 columns as per your width variable */
     height: calc(100% / 28); /* 28 rows as per your height variable */
     box-sizing: border-box;
+    background-color: burlywood;
 }
 
 /* Score and level display */
@@ -107,14 +108,21 @@ body {
     }
 }
 .pac-dot {
-    background-color: green;
-    border: 5px solid white;
-    box-sizing: border-box;
+  background-image: url('Images/Coin.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 15px 15px; /* shrink coin to 12×12 inside the 20×20 tile */
 }
 
+
 .wall {
-    background-color: blue;
+    background-color: transparent;
 }
+
+.wall::before {
+    content: "🌳";
+}
+
 
 .power-pellet {
     background-color: green;
@@ -123,19 +131,23 @@ body {
 
 
 .blinky {
-    background-color: red;
+  background: url("images/blinky.png");
+  background-size: contain;
 }
 
 .pinky {
-    background-color: pink;
+  background: url("images/pinky.png");
+  background-size: contain;
 }
 
 .inky {
-    background-color: cyan;
+  background: url("images/inky.png");
+  background-size: contain;
 }
 
 .clyde {
-    background-color: orange;
+  background: url("images/clyde.png");
+  background-size: contain;
 }
 
 .pac-man {
@@ -145,7 +157,9 @@ body {
 }
 
 .scared-ghost {
-    background-color: aquamarine;
+  background: url("images/ScaredGhost.png");
+  background-size: contain;
+  background-color: transparent;
 }
 
 /* Game Mode Button */
