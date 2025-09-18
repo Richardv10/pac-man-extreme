@@ -23,8 +23,8 @@
         1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 2, 2, 2, 2, 2, 2, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
         4, 4, 4, 4, 4, 4, 0, 0, 0, 4, 1, 2, 2, 2, 2, 2, 2, 1, 4, 0, 0, 0, 4, 4, 4, 4, 4, 4,
         1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 2, 2, 2, 2, 2, 2, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 2, 2, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 2, 2, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
         1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
@@ -130,14 +130,11 @@ function movePacman(e) {
             ) {
                 pacmanCurrentIndex -= width
     }
-    break
+            break
 
-       
+    }
 
-}
-
-//    
-squares[pacmanCurrentIndex].classList.add('pac-man')
+    squares[pacmanCurrentIndex].classList.add('pac-man')
 
 pacDotEaten()
 powerPelletEaten()
@@ -183,8 +180,10 @@ class Ghost {
         this.currentIndex = startIndex;
         this.isScared = false;
         this.timerId = NaN;
-}   }
-    // all my ghosts
+    }
+}
+
+// all my ghosts
     ghosts = [ 
         new Ghost('blinky', 348, 250),
         new Ghost('pinky', 376, 400),
@@ -204,7 +203,7 @@ class Ghost {
 
     ghosts.forEach(ghost => moveGhost(ghost))
 
-    function moveGhost(ghost) {
+function moveGhost(ghost) {
     const directions =  [-1, +1, width, -width]
     let direction = directions[Math.floor(Math.random() * directions.length)];
 
@@ -252,7 +251,7 @@ function checkForGameOver() {
 }
    // check for a win
    
-    function checkForWin() {
+function checkForWin() {
     if (score === 274) {
         // stop each ghost
         ghosts.forEach(ghost => clearInterval(ghost.timerId));
