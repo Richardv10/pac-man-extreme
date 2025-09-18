@@ -107,7 +107,8 @@ body {
 }
 
 .pac-man {
-    background-color: rgb(255, 106, 0);
+    background-image: url('images/pac-man-512x512.png');
+    background-size: cover;
     border-radius: 10px;
 }
 
