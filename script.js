@@ -118,9 +118,40 @@ function handleLifeLoss() {
 
 function movePacman(e) {
   e.preventDefault();
+  let direction = '';
+  
+  // Determine direction from keyboard or touch
+  if (e.key) {
+    // Keyboard input
+    switch (e.key) {
+      case "ArrowLeft":
+        direction = 'left';
+        break;
+      case "ArrowRight":
+        direction = 'right';
+        break;
+      case "ArrowDown":
+        direction = 'down';
+        break;
+      case "ArrowUp":
+        direction = 'up';
+        break;
+      default:
+        return; // Exit if not an arrow key
+    }
+  } else {
+    // Touch input - direction passed to the function directly, extra directly. I will not tolerate doubts on my directionality
+    direction = e;
+  }
+  
+  movePacmanInDirection(direction);
+}
+
+function movePacmanInDirection(direction) {
   squares[pacmanCurrentIndex].classList.remove("pac-man");
-  switch (e.key) {
-    case "ArrowLeft":
+  
+  switch (direction) {
+    case "left":
       if (
         pacmanCurrentIndex % width !== 0 &&
         !squares[pacmanCurrentIndex - 1].classList.contains("wall") &&
@@ -132,10 +163,9 @@ function movePacman(e) {
       if (squares[pacmanCurrentIndex - 1] === squares[363]) {
         pacmanCurrentIndex = 391;
       }
-
       break;
 
-    case "ArrowRight":
+    case "right":
       if (
         pacmanCurrentIndex % width < width - 1 &&
         !squares[pacmanCurrentIndex + 1].classList.contains("wall") &&
@@ -149,7 +179,7 @@ function movePacman(e) {
       }
       break;
 
-    case "ArrowDown":
+    case "down":
       if (
         pacmanCurrentIndex + width < width * width &&
         !squares[pacmanCurrentIndex + width].classList.contains("wall") &&
@@ -159,7 +189,7 @@ function movePacman(e) {
       }
       break;
 
-    case "ArrowUp":
+    case "up":
       if (
         pacmanCurrentIndex - width >= 0 &&
         !squares[pacmanCurrentIndex - width].classList.contains("wall") &&
@@ -179,6 +209,53 @@ function movePacman(e) {
 }
 
 document.addEventListener("keyup", movePacman);
+
+// Mobile Touch Controls
+document.addEventListener('DOMContentLoaded', function() {
+  const upBtn = document.getElementById('up-btn');
+  const downBtn = document.getElementById('down-btn');
+  const leftBtn = document.getElementById('left-btn');
+  const rightBtn = document.getElementById('right-btn');
+  
+  if (upBtn) upBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('up'); });
+  if (downBtn) downBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('down'); });
+  if (leftBtn) leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('left'); });
+  if (rightBtn) rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('right'); });
+  
+  // Also add click events for non-touch devices testing
+  //if (upBtn) upBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('up'); });
+  //if (downBtn) downBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('down'); });
+  //if (leftBtn) leftBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('left'); });
+  //if (rightBtn) rightBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('right'); });
+});
+
+
+//Add swipe gesture support
+let touchStartX = 0;
+let touchStartY = 0;
+const minSwipeDistance = 50;
+
+document.addEventListener('touchstart', function(e) {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+});
+
+document.addEventListener('touchend', function(e) {
+  if (!touchStartX || !touchStartY) return;
+  
+  const touchEndX = e.changedTouches[0].clientX;
+  const touchEndY = e.changedTouches[0].clientY;
+  
+  const deltaX = touchEndX - touchStartX;
+  const deltaY = touchEndY - touchStartY;
+  
+  const absDeltaX = Math.abs(deltaX);
+  const absDeltaY = Math.abs(deltaY);
+  
+  touchStartX = 0;
+  touchStartY = 0;
+});
+
 
 // What happens when you eat a pac-dot
 function pacDotEaten() {
