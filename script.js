@@ -305,7 +305,7 @@ function checkForWin() {
         //replace this with fancy react modal later 
         setTimeout(function(){alert("You Have Completed Pacman Extreme! Increase the difficulty on newgame+ by following this link https://store.steampowered.com/app/374320/DARK_SOULS_III/ ");}, 500)
     }
-    else if (score === 5 && levelNumber < 3) {
+    else if (score === 274 && levelNumber < 3) {
         // stop each ghost
         ghosts.forEach(ghost => clearInterval(ghost.timerId));
         setTimeout(function(){alert("You Have ruthlessly dominated Level " + levelNumber + "! Get ready for the next nailbiting adventure!");}, 500)
