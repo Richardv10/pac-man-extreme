@@ -1,8 +1,11 @@
 const scoreDisplay = document.getElementById("score");
-// const levelDisplay = document.getElementById('level');
+const levelDisplay = document.getElementById('level');
 const width = 28;
 const height = 28;
 let score = 0;
+    let levelNumber = 1 // Start at level 1
+    let currentLevel = levelNumber; // Track the current level
+    levelDisplay.innerHTML = currentLevel
 const grid = document.querySelector(".grid");
 
 const PACMAN_START = 490;
@@ -16,49 +19,26 @@ livesDisplay.textContent = lives;
 
 
 
-/* The array below represents the layout of the grid, where each number corresponds to a different type of square (the legend is below). This approach of using a static array simplifies the project, if we have time we can mutate it for other levels.*/
+   function getLevel(levelNumber) {
+        if (levelNumber === 1) {
+            return layout1;
+        } 
+        else if (levelNumber === 2) {
+            return layout2;
+        } 
+        else if (levelNumber === 3) {
+            return layout3;
+        }
+        else {
+            // Default to level 1 if invalid level number
+            return layout1;
+        }
+    }
 
-const layout = [
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0,
-  1, 1, 1, 1, 0, 1, 1, 3, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,
-  1, 0, 1, 1, 1, 1, 3, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1,
-  1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1,
-  1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  0, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 0, 1, 1, 4, 1, 1, 1, 2, 2, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 0, 1, 1, 4, 1, 2, 2, 2, 2, 2, 2, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-  4, 4, 4, 4, 4, 4, 0, 0, 0, 4, 1, 2, 2, 2, 2, 2, 2, 1, 4, 0, 0, 0, 4, 4, 4, 4,
-  4, 4, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 2, 2, 2, 2, 2, 2, 1, 4, 1, 1, 0, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 2, 2, 1, 1, 1, 4, 1, 1, 0,
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 2, 2, 1, 1, 1, 4, 1,
-  1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-  4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0,
-  1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,
-  1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 3, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 3, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0,
-  1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1,
-  1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-  0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0,
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,
-  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1,
-];
+    let layout = getLevel(levelNumber); // Sets the map layout based on the current level number
 
-// 0 - pac-dots
-// 1 - wall
-// 2 - ghost-lair
-// 3 - power-pellet
-// 4 - empty
 
-// This array will store references to all the <div> elements that make up the grid.
+// The levels.js file stores all the levels as arrays. Here we choose which level to load.
 // Each element in 'squares' corresponds to one entry in the 'layout' array.
 
 const squares = [];
@@ -111,7 +91,7 @@ function handleLifeLoss() {
   lives--;
   livesDisplay.textContent = lives;
 
-  if (lives <= 0) {
+  if (lives === 1) {
     squares[pacmanCurrentIndex].classList.remove('pac-man');
     gameOver();
     return;
@@ -138,9 +118,40 @@ function handleLifeLoss() {
 
 function movePacman(e) {
   e.preventDefault();
+  let direction = '';
+  
+  // Determine direction from keyboard or touch
+  if (e.key) {
+    // Keyboard input
+    switch (e.key) {
+      case "ArrowLeft":
+        direction = 'left';
+        break;
+      case "ArrowRight":
+        direction = 'right';
+        break;
+      case "ArrowDown":
+        direction = 'down';
+        break;
+      case "ArrowUp":
+        direction = 'up';
+        break;
+      default:
+        return; // Exit if not an arrow key
+    }
+  } else {
+    // Touch input - direction passed to the function directly, extra directly. I will not tolerate doubts on my directionality
+    direction = e;
+  }
+  
+  movePacmanInDirection(direction);
+}
+
+function movePacmanInDirection(direction) {
   squares[pacmanCurrentIndex].classList.remove("pac-man");
-  switch (e.key) {
-    case "ArrowLeft":
+  
+  switch (direction) {
+    case "left":
       if (
         pacmanCurrentIndex % width !== 0 &&
         !squares[pacmanCurrentIndex - 1].classList.contains("wall") &&
@@ -152,10 +163,9 @@ function movePacman(e) {
       if (squares[pacmanCurrentIndex - 1] === squares[363]) {
         pacmanCurrentIndex = 391;
       }
-
       break;
 
-    case "ArrowRight":
+    case "right":
       if (
         pacmanCurrentIndex % width < width - 1 &&
         !squares[pacmanCurrentIndex + 1].classList.contains("wall") &&
@@ -169,7 +179,7 @@ function movePacman(e) {
       }
       break;
 
-    case "ArrowDown":
+    case "down":
       if (
         pacmanCurrentIndex + width < width * width &&
         !squares[pacmanCurrentIndex + width].classList.contains("wall") &&
@@ -179,7 +189,7 @@ function movePacman(e) {
       }
       break;
 
-    case "ArrowUp":
+    case "up":
       if (
         pacmanCurrentIndex - width >= 0 &&
         !squares[pacmanCurrentIndex - width].classList.contains("wall") &&
@@ -199,6 +209,53 @@ function movePacman(e) {
 }
 
 document.addEventListener("keyup", movePacman);
+
+// Mobile Touch Controls
+document.addEventListener('DOMContentLoaded', function() {
+  const upBtn = document.getElementById('up-btn');
+  const downBtn = document.getElementById('down-btn');
+  const leftBtn = document.getElementById('left-btn');
+  const rightBtn = document.getElementById('right-btn');
+  
+  if (upBtn) upBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('up'); });
+  if (downBtn) downBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('down'); });
+  if (leftBtn) leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('left'); });
+  if (rightBtn) rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('right'); });
+  
+  // Also add click events for non-touch devices testing
+  //if (upBtn) upBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('up'); });
+  //if (downBtn) downBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('down'); });
+  //if (leftBtn) leftBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('left'); });
+  //if (rightBtn) rightBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('right'); });
+});
+
+
+//Add swipe gesture support
+let touchStartX = 0;
+let touchStartY = 0;
+const minSwipeDistance = 50;
+
+document.addEventListener('touchstart', function(e) {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+});
+
+document.addEventListener('touchend', function(e) {
+  if (!touchStartX || !touchStartY) return;
+  
+  const touchEndX = e.changedTouches[0].clientX;
+  const touchEndY = e.changedTouches[0].clientY;
+  
+  const deltaX = touchEndX - touchStartX;
+  const deltaY = touchEndY - touchStartY;
+  
+  const absDeltaX = Math.abs(deltaX);
+  const absDeltaY = Math.abs(deltaY);
+  
+  touchStartX = 0;
+  touchStartY = 0;
+});
+
 
 // What happens when you eat a pac-dot
 function pacDotEaten() {
@@ -313,19 +370,41 @@ function checkForGameOver() {
   if (onGhost && !onScared && !isInvulnerable) {
     handleLifeLoss();
   }
+  if (lives === 0) { gameOver()}
 }
 // check for a win
 
 function checkForWin() {
-  if (score === 274) {
-    // stop each ghost
-    ghosts.forEach((ghost) => clearInterval(ghost.timerId));
-    document.removeEventListener("keyup", movePacman);
-    //replace this with fancy react modal later
-    setTimeout(function () {
-      alert("You Have Won!");
-    }, 500);
-  }
+    if (score === 274 && levelNumber === 3) {
+        // stop each ghost
+        ghosts.forEach(ghost => clearInterval(ghost.timerId));
+        document.removeEventListener('keyup', movePacman);
+        //replace this with fancy react modal later 
+        setTimeout(function(){alert("You Have Completed Pacman Extreme! Increase the difficulty on newgame+ by following this link https://store.steampowered.com/app/374320/DARK_SOULS_III/ ");}, 500)
+    }
+    else if (score === 274 && levelNumber < 3) {
+        // stop each ghost
+        ghosts.forEach(ghost => clearInterval(ghost.timerId));
+        setTimeout(function(){alert("You Have ruthlessly dominated Level " + levelNumber + "! Get ready for the next nailbiting adventure!");}, 500)
+        levelNumber += 1; // Increase the level number
+        score = 0; // Reset score for the new level
+        scoreDisplay.innerHTML = score; // Update the score display
+        levelDisplay.innerHTML = levelNumber; // Update the level display
+        layout = getLevel(levelNumber); // Load the new level layout
+        squares.forEach(square => square.className = ''); // Clear the board
+        createBoard(); // Recreate the board with the new layout
+        pacmanCurrentIndex = 490; // Reset Pacman's position
+        squares[pacmanCurrentIndex].classList.add('pac-man');
+        
+        ghosts.forEach(ghost => {
+            ghost.currentIndex = ghost.startIndex;
+            squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+            moveGhost(ghost);
+        });
+        
+        // Re-enable pacman movement
+        document.addEventListener('keyup', movePacman);
+    }
 }
 
 //create Characters
