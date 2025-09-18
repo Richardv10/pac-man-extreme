@@ -93,8 +93,9 @@ body {
 
 
 .power-pellet {
-    background-color: green;
-    border-radius: 10px;
+    background: url("images/lightning-bolt-16.png") no-repeat center;
+    background-size: 20px 20px;
+    background-color: transparent;
 }
 
 
@@ -127,7 +128,6 @@ body {
 .scared-ghost {
   background: url("images/ScaredGhost.png");
   background-size: contain;
-  background-color: transparent;
 }
 
 /* Mobile Controls */
