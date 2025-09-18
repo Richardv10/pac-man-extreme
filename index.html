@@ -17,7 +17,20 @@
             <h3>Lives:<span id="lives"></span></h3>
             <button id="start-reset-btn" class="game-control-btn">Start Game</button>
         </div>
+        <button class="instructions-toggle">HOW TO PLAY</button>
         <button id="compactor-toggle" class="game-mode-btn">Enable Trash Compactor Mode</button>
+        <div class="instructions hidden">
+    <ul>
+        <li>Use the <span class="key">Arrow Keys</span> to navigate Pac-Man through the maze</li>
+        <li>Eat all the <span style="color:green">pac-dots</span> to advance to the next level</li>
+        <li>Avoid the ghosts - they will chase you!</li>
+        <li>Eat <span style="color:green">power pellets</span> to temporarily turn the ghosts blue and vulnerable</li>
+        <li>Eat blue ghosts for extra points</li>
+        <li>Use the tunnels on the left and right to teleport to the other side</li>
+        <li><strong>Note:</strong> Arrow keys only work when the game board is focused (click on it first)</li>
+    </ul>
+</div>
+
         <div class="slidecontainer">
   <input type="range" min="3000" max="12000" value="5000" class="slider" id="newHope">
 </div>

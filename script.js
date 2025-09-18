@@ -180,13 +180,19 @@ document.addEventListener('DOMContentLoaded', function() {
   if (compactorButton) {
     compactorButton.addEventListener('click', toggleTrashCompactorMode);
   }
-  
+   const instructionsToggle = document.querySelector('.instructions-toggle');
+    const instructions = document.querySelector('.instructions');
+    
+    if (instructionsToggle && instructions) {
+        instructionsToggle.addEventListener('click', function() {
+            instructions.classList.toggle('hidden');
+        });
+    }
   const startResetButton = document.getElementById('start-reset-btn');
   if (startResetButton) {
     startResetButton.addEventListener('click', handleStartReset);
   }
 });
-
 // Start/Reset Game Functions
 function handleStartReset() {
   const button = document.getElementById('start-reset-btn');
