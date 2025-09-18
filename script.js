@@ -466,7 +466,7 @@ class Ghost {
   }
 }
 
-// all my ghosts
+// I ain't afraid of no ghost
 ghosts = [
   new Ghost("blinky", 348, 250),
   new Ghost("pinky", 376, 400),
@@ -481,8 +481,7 @@ ghosts.forEach((ghost) => {
   squares[ghost.startIndex].classList.add("ghost");
 });
 
-// Move ghosts randomly - commented out for manual start
-// ghosts.forEach((ghost) => moveGhost(ghost));
+// Move ghosts randomly
 
 function moveGhost(ghost) {
   const directions = [-1, +1, width, -width];
@@ -516,11 +515,9 @@ function moveGhost(ghost) {
       squares[ghost.currentIndex].classList.add("scared-ghost");
     }
     // if the ghost is scared and pacman is on it
-    if (
-      ghost.isScared &&
-      squares[ghost.currentIndex].classList.contains("pac-man")
+    if (ghost.isScared && squares[ghost.currentIndex].classList.contains("pac-man")
     ) {
-      squares[ghost.currentIndex].classList.remove(
+        squares[ghost.currentIndex].classList.remove(
         ghost.className,
         "ghost",
         "scared-ghost"
