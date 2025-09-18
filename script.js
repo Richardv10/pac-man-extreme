@@ -222,38 +222,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (leftBtn) leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('left'); });
   if (rightBtn) rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('right'); });
   
-  // Also add click events for non-touch devices testing
-  //if (upBtn) upBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('up'); });
-  //if (downBtn) downBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('down'); });
-  //if (leftBtn) leftBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('left'); });
-  //if (rightBtn) rightBtn.addEventListener('click', (e) => { e.preventDefault(); movePacmanInDirection('right'); });
-});
-
-
-//Add swipe gesture support
-let touchStartX = 0;
-let touchStartY = 0;
-const minSwipeDistance = 50;
-
-document.addEventListener('touchstart', function(e) {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-});
-
-document.addEventListener('touchend', function(e) {
-  if (!touchStartX || !touchStartY) return;
-  
-  const touchEndX = e.changedTouches[0].clientX;
-  const touchEndY = e.changedTouches[0].clientY;
-  
-  const deltaX = touchEndX - touchStartX;
-  const deltaY = touchEndY - touchStartY;
-  
-  const absDeltaX = Math.abs(deltaX);
-  const absDeltaY = Math.abs(deltaY);
-  
-  touchStartX = 0;
-  touchStartY = 0;
 });
 
 
