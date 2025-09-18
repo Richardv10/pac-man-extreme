@@ -31,6 +31,7 @@ body {
     width: calc(100% / 28); /* 28 columns as per your width variable */
     height: calc(100% / 28); /* 28 rows as per your height variable */
     box-sizing: border-box;
+    background-color: burlywood;
 }
 
 /* Score and level display */
@@ -98,19 +99,23 @@ body {
 
 
 .blinky {
-    background-color: red;
+  background: url("images/blinky.png");
+  background-size: contain;
 }
 
 .pinky {
-    background-color: pink;
+  background: url("images/pinky.png");
+  background-size: contain;
 }
 
 .inky {
-    background-color: cyan;
+  background: url("images/inky.png");
+  background-size: contain;
 }
 
 .clyde {
-    background-color: orange;
+  background: url("images/clyde.png");
+  background-size: contain;
 }
 
 .pac-man {
@@ -120,7 +125,9 @@ body {
 }
 
 .scared-ghost {
-    background-color: aquamarine;
+  background: url("images/ScaredGhost.png");
+  background-size: contain;
+  background-color: transparent;
 }
 
 /* Mobile Controls */
