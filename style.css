@@ -75,14 +75,19 @@ body {
     }
 }
 .pac-dot {
-    background-color: green;
+    background-color: blue;
     border: 5px solid white;
     box-sizing: border-box;
 }
 
 .wall {
-    background-color: blue;
+    background-color: transparent;
 }
+
+.wall::before {
+    content: "🌳";
+}
+
 
 .power-pellet {
     background-color: green;
