@@ -165,3 +165,22 @@ body {
         display: block;
     }
 }
+
+/* Pac-Man orientation */
+.pac-man {
+  background-image: url('images/pac-man-512x512.png');
+  background-size: contain;        /* show the whole sprite */
+  background-position: center;
+  background-repeat: no-repeat;
+  transform-origin: center;
+  transition: transform 0.05s linear;
+  /* comment out if it clips the mouth */
+  /* border-radius: 0; */
+}
+
+/* Direction transforms */
+.pac-man.dir-right { transform: rotate(0deg); }
+.pac-man.dir-left  { transform: rotateY(180deg); }  /* strong horizontal flip */
+.pac-man.dir-up    { transform: rotate(-90deg); }
+.pac-man.dir-down  { transform: rotate(90deg); }
+
