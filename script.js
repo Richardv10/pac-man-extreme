@@ -237,6 +237,7 @@ function resetGame() {
   // Reset layout and board
   layout = getLevel(levelNumber);
   squares.forEach(square => square.className = '');
+  grid.className = `grid level-${levelNumber}`;
   createBoard();
   
   // Reset Pac-Man position
@@ -584,6 +585,7 @@ function checkForWin() {
         levelDisplay.innerHTML = levelNumber; // Update the level display
         layout = getLevel(levelNumber); // Load the new level layout
         squares.forEach(square => square.className = ''); // Clear the board
+        grid.className = `grid level-${levelNumber}`; // Update grid class for new level styling
         createBoard(); // Recreate the board with the new layout
         pacmanCurrentIndex = 490; // Reset Pacman's position
         squares[pacmanCurrentIndex].classList.add('pac-man');
