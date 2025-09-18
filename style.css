@@ -31,6 +31,7 @@ body {
     width: calc(100% / 28); /* 28 columns as per your width variable */
     height: calc(100% / 28); /* 28 rows as per your height variable */
     box-sizing: border-box;
+    background-color: burlywood;
 }
 
 /* Score and level display */
@@ -40,11 +41,43 @@ body {
     margin: 10px 0;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
 }
 
 .game-info h3 {
     margin: 5px 0;
     font-family: Arial, sans-serif;
+}
+
+/* Game Control Button (Start/Reset) */
+.game-control-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #333;
+    border-radius: 6px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 10px;
+}
+
+.game-control-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+
+.game-control-btn:active {
+    transform: translateY(0);
+}
+
+.game-control-btn.reset {
+    background-color: #f44336;
+}
+
+.game-control-btn.reset:hover {
+    background-color: #da190b;
 }
 
 /* Media queries for smaller screens */
@@ -75,14 +108,21 @@ body {
     }
 }
 .pac-dot {
-    background-color: green;
-    border: 5px solid white;
-    box-sizing: border-box;
+  background-image: url('Images/Coin.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 15px 15px; /* shrink coin to 12×12 inside the 20×20 tile */
 }
 
+
 .wall {
-    background-color: blue;
+    background-color: transparent;
 }
+
+.wall::before {
+    content: "🌳";
+}
+
 
 .power-pellet {
     background-color: green;
@@ -91,19 +131,23 @@ body {
 
 
 .blinky {
-    background-color: red;
+  background: url("images/blinky.png");
+  background-size: contain;
 }
 
 .pinky {
-    background-color: pink;
+  background: url("images/pinky.png");
+  background-size: contain;
 }
 
 .inky {
-    background-color: cyan;
+  background: url("images/inky.png");
+  background-size: contain;
 }
 
 .clyde {
-    background-color: orange;
+  background: url("images/clyde.png");
+  background-size: contain;
 }
 
 .pac-man {
@@ -113,7 +157,61 @@ body {
 }
 
 .scared-ghost {
-    background-color: aquamarine;
+  background: url("images/ScaredGhost.png");
+  background-size: contain;
+  background-color: transparent;
+}
+
+/* Game Mode Button */
+.game-mode-btn {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: #ff6a00;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.game-mode-btn:hover {
+    background-color: #e55a00;
+    transform: translateY(-2px);
+}
+
+.game-mode-btn:active {
+    transform: translateY(0);
+}
+
+.game-mode-btn.active {
+    background-color: #d32f2f;
+    border-color: #b71c1c;
+}
+
+.game-mode-btn:disabled {
+    background-color: #666;
+    border-color: #444;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.game-mode-btn:disabled:hover {
+    background-color: #666;
+    transform: none;
+}
+
+/* Trash Compactor Walls */
+.compactor-wall {
+    background-color: #8b0000 !important;
+    border: 2px solid #ff0000;
+    animation: compactorPulse 1s infinite alternate;
+}
+
+@keyframes compactorPulse {
+    0% { border-color: #ff0000; }
+    100% { border-color: #ff6666; }
 }
 
 /* Mobile Controls */
