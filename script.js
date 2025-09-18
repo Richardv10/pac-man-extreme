@@ -1,11 +1,11 @@
 const scoreDisplay = document.getElementById("score");
-const levelDisplay = document.getElementById('level');
+const levelDisplay = document.getElementById("level");
 const width = 28;
 const height = 28;
 let score = 0;
-    let levelNumber = 1 // Start at level 1
-    let currentLevel = levelNumber; // Track the current level
-    levelDisplay.innerHTML = currentLevel
+let levelNumber = 1; // Start at level 1
+let currentLevel = levelNumber; // Track the current level
+levelDisplay.innerHTML = currentLevel;
 const grid = document.querySelector(".grid");
 
 const PACMAN_START = 490;
@@ -16,30 +16,35 @@ const livesDisplay = document.getElementById("lives");
 let lives = 3;
 livesDisplay.textContent = lives;
 
+function getLevel(levelNumber) {
+  if (levelNumber === 1) {
+    return layout1;
+  } else if (levelNumber === 2) {
+    return layout2;
+  } else if (levelNumber === 3) {
+    return layout3;
+  } else {
+    // Default to level 1 if invalid level number
+    return layout1;
+  }
+}
+// Trash Compactor Mode Variables
+let trashCompactorMode = false;
+let compactorTopWall = 0; // Row of top compactor wall
+let compactorBottomWall = height - 1; // Row of bottom compactor wall
+let compactorInterval = null;
 
 
-
-   function getLevel(levelNumber) {
-        if (levelNumber === 1) {
-            return layout1;
-        } 
-        else if (levelNumber === 2) {
-            return layout2;
-        } 
-        else if (levelNumber === 3) {
-            return layout3;
-        }
-        else {
-            // Default to level 1 if invalid level number
-            return layout1;
-        }
-    }
-
-    let layout = getLevel(levelNumber); // Sets the map layout based on the current level number
-
+// Game State Variables
+let gameStarted = false;
+let gameRunning = false;
+let layout = getLevel(levelNumber); // Sets the map layout based on the current level number
 
 // The levels.js file stores all the levels as arrays. Here we choose which level to load.
 // Each element in 'squares' corresponds to one entry in the 'layout' array.
+
+const DIR_CLASSES = ["dir-left", "dir-right", "dir-up", "dir-down"];
+let currentDirection = "right"; // default facing
 
 const squares = [];
 // create board by looping over the layout array and creating a div for each item in the array. Depending on the value of the item, we add the corresponding class to the div. Notice the termination of the loop with 'i < layout.length' to ensure we cover all items in the array.
@@ -74,16 +79,226 @@ function createBoard() {
 }
 createBoard();
 
+// Trash Compactor Functions
+function toggleTrashCompactorMode() {
+  const button = document.getElementById('compactor-toggle');
+  
+  // Only allow activation, not deactivation
+  if (!trashCompactorMode) {
+    trashCompactorMode = true;
+    button.textContent = 'Trash Compactor Mode: ACTIVE';
+    button.classList.add('active');
+    button.disabled = true; // Disable button once activated
+    startTrashCompactor();
+  }
+}
+
+function startTrashCompactor() {
+  // Reset compactor walls to original positions
+  compactorTopWall = 0;
+  compactorBottomWall = height - 1;
+  
+  // Start the compaction interval
+  let compactorSpeed = 15000 -document.getElementById('newHope').value;
+  compactorInterval = setInterval(compactWalls, compactorSpeed);
+}
+
+function stopTrashCompactor() {
+  if (compactorInterval) {
+    clearInterval(compactorInterval);
+    compactorInterval = null;
+  }
+  
+  // Remove all compactor walls
+  squares.forEach(square => {
+    square.classList.remove('compactor-wall');
+  });
+  
+  // Reset wall positions
+  compactorTopWall = 0;
+  compactorBottomWall = height - 1;
+}
+
+function resetTrashCompactorMode() {
+  // Reset the mode and button for new game/level
+  trashCompactorMode = false;
+  const button = document.getElementById('compactor-toggle');
+  if (button) {
+    button.textContent = 'Enable Trash Compactor Mode';
+    button.classList.remove('active');
+    button.disabled = false; // Re-enable button for new game/level
+  }
+  stopTrashCompactor();
+}
+
+function compactWalls() {
+  // Check if compactor walls would meet (game over condition)
+  if (compactorTopWall + 2 >= compactorBottomWall) {
+    handleLifeLoss();
+    return;
+  }
+  
+  // Move walls inward
+  compactorTopWall++;
+  compactorBottomWall--;
+  
+  // Add compactor wall class to new wall positions
+  for (let col = 0; col < width; col++) {
+    const topIndex = compactorTopWall * width + col;
+    const bottomIndex = compactorBottomWall * width + col;
+    
+    // Remove any existing classes except wall
+    squares[topIndex].className = '';
+    squares[bottomIndex].className = '';
+    
+    // Add compactor wall styling and wall collision
+    squares[topIndex].classList.add('wall', 'compactor-wall');
+    squares[bottomIndex].classList.add('wall', 'compactor-wall');
+  }
+  
+  // Check if Pac-Man is caught in the compactor
+  const pacmanRow = Math.floor(pacmanCurrentIndex / width);
+  if (pacmanRow <= compactorTopWall || pacmanRow >= compactorBottomWall) {
+    handleLifeLoss();
+  }
+  
+  // Check if any ghosts are caught and reset them
+  ghosts.forEach(ghost => {
+    const ghostRow = Math.floor(ghost.currentIndex / width);
+    if (ghostRow <= compactorTopWall || ghostRow >= compactorBottomWall) {
+      // Reset ghost to start position
+      squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost');
+      ghost.currentIndex = ghost.startIndex;
+      squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+    }
+  });
+}
+
+// Add event listener for trash compactor toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const compactorButton = document.getElementById('compactor-toggle');
+  if (compactorButton) {
+    compactorButton.addEventListener('click', toggleTrashCompactorMode);
+  }
+  
+  const startResetButton = document.getElementById('start-reset-btn');
+  if (startResetButton) {
+    startResetButton.addEventListener('click', handleStartReset);
+  }
+});
+
+// Start/Reset Game Functions
+function handleStartReset() {
+  const button = document.getElementById('start-reset-btn');
+  
+  if (!gameStarted) {
+    startGame();
+    button.textContent = 'Reset';
+    button.classList.add('reset');
+  } else {
+    resetGame();
+  }
+}
+
+function startGame() {
+  gameStarted = true;
+  gameRunning = true;
+  
+  // Enable movement
+  document.addEventListener('keyup', movePacman);
+  
+  // Start ghosts
+  ghosts.forEach(ghost => moveGhost(ghost));
+  
+  updateStartResetButton();
+}
+
+function resetGame() {
+  // Stop all game processes
+  ghosts.forEach(ghost => clearInterval(ghost.timerId));
+  document.removeEventListener('keyup', movePacman);
+  
+  // Reset trash compactor
+  resetTrashCompactorMode();
+  
+  // Reset game state
+  gameStarted = false;
+  gameRunning = false;
+  score = 0;
+  lives = 3;
+  levelNumber = 1;
+  isInvulnerable = false;
+  
+  // Update displays
+  scoreDisplay.innerHTML = score;
+  livesDisplay.textContent = lives;
+  levelDisplay.innerHTML = levelNumber;
+  
+  // Reset layout and board
+  layout = getLevel(levelNumber);
+  squares.forEach(square => square.className = '');
+  createBoard();
+  
+  // Reset Pac-Man position
+  pacmanCurrentIndex = PACMAN_START;
+  squares[pacmanCurrentIndex].classList.add('pac-man');
+  
+  // Reset ghosts
+  ghosts.forEach(ghost => {
+    squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost');
+    ghost.currentIndex = ghost.startIndex;
+    ghost.isScared = false;
+    squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+  });
+  
+  updateStartResetButton();
+}
+
+function updateStartResetButton() {
+  const button = document.getElementById('start-reset-btn');
+  if (button) {
+    if (!gameStarted) {
+      button.textContent = 'Start Game';
+      button.classList.remove('reset');
+    } else {
+      button.textContent = 'Reset';
+      button.classList.add('reset');
+    }
+  }
+}
+
 function placePacmanIfAlive() {
   if (lives > 0) {
-    squares[pacmanCurrentIndex].classList.add('pac-man');
+    squares[pacmanCurrentIndex].classList.remove(...DIR_CLASSES);
+    squares[pacmanCurrentIndex].classList.add(
+      "pac-man",
+      `dir-${currentDirection}`
+    );
   }
+}
+
+function addPacmanWithDirection(dir) {
+  currentDirection = dir;
+  squares[pacmanCurrentIndex].classList.remove(...DIR_CLASSES);
+  squares[pacmanCurrentIndex].classList.add("pac-man", `dir-${dir}`);
 }
 
 function gameOver() {
   ghosts.forEach(ghost => clearInterval(ghost.timerId));
   document.removeEventListener('keyup', movePacman);
+  
+  // Reset game state
+  gameStarted = false;
+  gameRunning = false;
+  
+  // Reset trash compactor mode completely on game over
+  resetTrashCompactorMode();
+  
+  // Update button state
+  updateStartResetButton();
+  
   setTimeout(function(){ alert("Game Over!"); }, 200);
+
 }
 
 function handleLifeLoss() {
@@ -91,50 +306,43 @@ function handleLifeLoss() {
   lives--;
   livesDisplay.textContent = lives;
 
-  if (lives === 1) {
-    squares[pacmanCurrentIndex].classList.remove('pac-man');
+  if (lives <= 0) {
+    squares[pacmanCurrentIndex].classList.remove("pac-man", ...DIR_CLASSES);
     gameOver();
     return;
   }
 
   // brief invulnerability
   isInvulnerable = true;
-  setTimeout(() => { isInvulnerable = false; }, 1000);
+  setTimeout(() => {
+    isInvulnerable = false;
+  }, 1000);
 
   // reset Pac-Man position
-  squares[pacmanCurrentIndex].classList.remove('pac-man');
+  squares[pacmanCurrentIndex].classList.remove("pac-man", ...DIR_CLASSES);
   pacmanCurrentIndex = PACMAN_START;
-  placePacmanIfAlive();
-
-  // OPTIONAL: also reset ghosts to starts (uncomment if you want this)
-/*
-  ghosts.forEach(g => {
-    squares[g.currentIndex].classList.remove(g.className, 'ghost', 'scared-ghost');
-    g.currentIndex = g.startIndex;
-    squares[g.currentIndex].classList.add(g.className, 'ghost');
-  });
-*/
+  addPacmanWithDirection("right"); // respawn facing right
 }
 
 function movePacman(e) {
   e.preventDefault();
-  let direction = '';
-  
+  let direction = "";
+
   // Determine direction from keyboard or touch
   if (e.key) {
     // Keyboard input
     switch (e.key) {
       case "ArrowLeft":
-        direction = 'left';
+        direction = "left";
         break;
       case "ArrowRight":
-        direction = 'right';
+        direction = "right";
         break;
       case "ArrowDown":
-        direction = 'down';
+        direction = "down";
         break;
       case "ArrowUp":
-        direction = 'up';
+        direction = "up";
         break;
       default:
         return; // Exit if not an arrow key
@@ -143,13 +351,13 @@ function movePacman(e) {
     // Touch input - direction passed to the function directly, extra directly. I will not tolerate doubts on my directionality
     direction = e;
   }
-  
+
   movePacmanInDirection(direction);
 }
 
 function movePacmanInDirection(direction) {
-  squares[pacmanCurrentIndex].classList.remove("pac-man");
-  
+  squares[pacmanCurrentIndex].classList.remove("pac-man", ...DIR_CLASSES);
+
   switch (direction) {
     case "left":
       if (
@@ -200,7 +408,7 @@ function movePacmanInDirection(direction) {
       break;
   }
 
-  squares[pacmanCurrentIndex].classList.add("pac-man");
+  addPacmanWithDirection(direction);
 
   pacDotEaten();
   powerPelletEaten();
@@ -208,22 +416,37 @@ function movePacmanInDirection(direction) {
   checkForWin();
 }
 
-document.addEventListener("keyup", movePacman);
+// Keyboard listener added manually on game start
+// document.addEventListener("keyup", movePacman);
 
 // Mobile Touch Controls
-document.addEventListener('DOMContentLoaded', function() {
-  const upBtn = document.getElementById('up-btn');
-  const downBtn = document.getElementById('down-btn');
-  const leftBtn = document.getElementById('left-btn');
-  const rightBtn = document.getElementById('right-btn');
-  
-  if (upBtn) upBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('up'); });
-  if (downBtn) downBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('down'); });
-  if (leftBtn) leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('left'); });
-  if (rightBtn) rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); movePacmanInDirection('right'); });
-  
-});
+document.addEventListener("DOMContentLoaded", function () {
+  const upBtn = document.getElementById("up-btn");
+  const downBtn = document.getElementById("down-btn");
+  const leftBtn = document.getElementById("left-btn");
+  const rightBtn = document.getElementById("right-btn");
 
+  if (upBtn)
+    upBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("up");
+    });
+  if (downBtn)
+    downBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("down");
+    });
+  if (leftBtn)
+    leftBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("left");
+    });
+  if (rightBtn)
+    rightBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("right");
+    });
+});
 
 // What happens when you eat a pac-dot
 function pacDotEaten() {
@@ -262,7 +485,7 @@ class Ghost {
   }
 }
 
-// all my ghosts
+// I ain't afraid of no ghost
 ghosts = [
   new Ghost("blinky", 348, 250),
   new Ghost("pinky", 376, 400),
@@ -278,8 +501,6 @@ ghosts.forEach((ghost) => {
 });
 
 // Move ghosts randomly
-
-ghosts.forEach((ghost) => moveGhost(ghost));
 
 function moveGhost(ghost) {
   const directions = [-1, +1, width, -width];
@@ -313,11 +534,9 @@ function moveGhost(ghost) {
       squares[ghost.currentIndex].classList.add("scared-ghost");
     }
     // if the ghost is scared and pacman is on it
-    if (
-      ghost.isScared &&
-      squares[ghost.currentIndex].classList.contains("pac-man")
+    if (ghost.isScared && squares[ghost.currentIndex].classList.contains("pac-man")
     ) {
-      squares[ghost.currentIndex].classList.remove(
+        squares[ghost.currentIndex].classList.remove(
         ghost.className,
         "ghost",
         "scared-ghost"
@@ -332,13 +551,14 @@ function moveGhost(ghost) {
 }
 // check for a game over
 function checkForGameOver() {
-  const onGhost = squares[pacmanCurrentIndex].classList.contains('ghost');
-  const onScared = squares[pacmanCurrentIndex].classList.contains('scared-ghost');
+  const onGhost = squares[pacmanCurrentIndex].classList.contains("ghost");
+  const onScared =
+    squares[pacmanCurrentIndex].classList.contains("scared-ghost");
 
   if (onGhost && !onScared && !isInvulnerable) {
     handleLifeLoss();
   }
-  if (lives === 0) { gameOver()}
+
 }
 // check for a win
 
@@ -353,6 +573,10 @@ function checkForWin() {
     else if (score === 274 && levelNumber < 3) {
         // stop each ghost
         ghosts.forEach(ghost => clearInterval(ghost.timerId));
+        
+        // Reset trash compactor mode for new level
+        resetTrashCompactorMode();
+        
         setTimeout(function(){alert("You Have ruthlessly dominated Level " + levelNumber + "! Get ready for the next nailbiting adventure!");}, 500)
         levelNumber += 1; // Increase the level number
         score = 0; // Reset score for the new level
@@ -378,4 +602,4 @@ function checkForWin() {
 //create Characters
 //draw pac-man onto the board
 let pacmanCurrentIndex = PACMAN_START;
-placePacmanIfAlive();
+addPacmanWithDirection('right'); // spawn facing right on load

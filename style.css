@@ -41,11 +41,43 @@ body {
     margin: 10px 0;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
 }
 
 .game-info h3 {
     margin: 5px 0;
     font-family: Arial, sans-serif;
+}
+
+/* Game Control Button (Start/Reset) */
+.game-control-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #333;
+    border-radius: 6px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 10px;
+}
+
+.game-control-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+
+.game-control-btn:active {
+    transform: translateY(0);
+}
+
+.game-control-btn.reset {
+    background-color: #f44336;
+}
+
+.game-control-btn.reset:hover {
+    background-color: #da190b;
 }
 
 /* Media queries for smaller screens */
@@ -139,6 +171,58 @@ body {
   background-size: contain;
 }
 
+/* Game Mode Button */
+.game-mode-btn {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: #ff6a00;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.game-mode-btn:hover {
+    background-color: #e55a00;
+    transform: translateY(-2px);
+}
+
+.game-mode-btn:active {
+    transform: translateY(0);
+}
+
+.game-mode-btn.active {
+    background-color: #d32f2f;
+    border-color: #b71c1c;
+}
+
+.game-mode-btn:disabled {
+    background-color: #666;
+    border-color: #444;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.game-mode-btn:disabled:hover {
+    background-color: #666;
+    transform: none;
+}
+
+/* Trash Compactor Walls */
+.compactor-wall {
+    background-color: #8b0000 !important;
+    border: 2px solid #ff0000;
+    animation: compactorPulse 1s infinite alternate;
+}
+
+@keyframes compactorPulse {
+    0% { border-color: #ff0000; }
+    100% { border-color: #ff6666; }
+}
+
 /* Mobile Controls */
 .mobile-controls {
     display: none; /* Hidden by default, shown on mobile */
@@ -188,3 +272,22 @@ body {
         display: block;
     }
 }
+
+/* Pac-Man orientation */
+.pac-man {
+  background-image: url('images/pac-man-512x512.png');
+  background-size: contain;        /* show the whole sprite */
+  background-position: center;
+  background-repeat: no-repeat;
+  transform-origin: center;
+  transition: transform 0.05s linear;
+  /* comment out if it clips the mouth */
+  /* border-radius: 0; */
+}
+
+/* Direction transforms */
+.pac-man.dir-right { transform: rotate(0deg); }
+.pac-man.dir-left  { transform: rotateY(180deg); }  /* strong horizontal flip */
+.pac-man.dir-up    { transform: rotate(-90deg); }
+.pac-man.dir-down  { transform: rotate(90deg); }
+
