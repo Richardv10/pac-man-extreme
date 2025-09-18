@@ -75,10 +75,12 @@ body {
     }
 }
 .pac-dot {
-    background-color: blue;
-    border: 5px solid white;
-    box-sizing: border-box;
+  background-image: url('Images/Coin.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 15px 15px; /* shrink coin to 12×12 inside the 20×20 tile */
 }
+
 
 .wall {
     background-color: transparent;
