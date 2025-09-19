@@ -697,3 +697,17 @@ if (prevBtn) {
     showSlide(currentSlide);
   });
 }
+function updateProgress() {
+  const progress = document.querySelector('.progress');
+  const percentage = ((currentSlide + 1) / slides.length) * 100;
+  progress.style.width = percentage + '%';
+}
+
+// Call this after showSlide()
+function showSlide(index) {
+  slides.forEach((s, i) => s.classList.toggle('active', i === index));
+  updateProgress();
+}
+
+// Initialise on open
+updateProgress();
