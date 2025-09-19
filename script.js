@@ -419,6 +419,10 @@ function preventScrolling(e) {
 }
 
 function movePacmanInDirection(direction) {
+  if (!gameStarted) {
+    return; // Don't move if game hasn't started
+  }
+  
   squares[pacmanCurrentIndex].classList.remove("pac-man", ...DIR_CLASSES);
 
   switch (direction) {
@@ -489,26 +493,46 @@ document.addEventListener("DOMContentLoaded", function () {
   const leftBtn = document.getElementById("left-btn");
   const rightBtn = document.getElementById("right-btn");
 
-  if (upBtn)
+  if (upBtn) {
     upBtn.addEventListener("touchstart", (e) => {
       e.preventDefault();
       movePacmanInDirection("up");
     });
-  if (downBtn)
+    upBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("up");
+    });
+  }
+  if (downBtn) {
     downBtn.addEventListener("touchstart", (e) => {
       e.preventDefault();
       movePacmanInDirection("down");
     });
-  if (leftBtn)
+    downBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("down");
+    });
+  }
+  if (leftBtn) {
     leftBtn.addEventListener("touchstart", (e) => {
       e.preventDefault();
       movePacmanInDirection("left");
     });
-  if (rightBtn)
+    leftBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("left");
+    });
+  }
+  if (rightBtn) {
     rightBtn.addEventListener("touchstart", (e) => {
       e.preventDefault();
       movePacmanInDirection("right");
     });
+    rightBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      movePacmanInDirection("right");
+    });
+  }
 });
 
 // What happens when you eat a pac-dot
