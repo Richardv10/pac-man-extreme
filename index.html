@@ -25,14 +25,40 @@
 
         <button class="instructions-toggle">HOW TO PLAY</button>
         <div class="instructions hidden">
+
+
 <div id="howto-modal" class="modal hidden">
   <div class="modal-content">
     <span id="close-howto" class="close-btn">&times;</span>
-    <h2>How to Play</h2>
-    <p>Eat all the dots to increase your score.</p>
-    <p>Avoid ghosts or you will lose a life.</p>
-    <p>Eat power pellets to turn ghosts vulnerable.</p>
-    <p>Complete all levels to win the game!</p>
+
+    <div class="howto-slide active">
+      <h2>Step 1</h2>
+      <p>Eat all the dots to score points.</p>
+      <img src="images/dot-icon.png" alt="Dot">
+    </div>
+
+    <div class="howto-slide">
+      <h2>Step 2</h2>
+      <p>Avoid the ghosts or you will lose a life.</p>
+      <img src="images/ghost-icon.png" alt="Ghost">
+    </div>
+
+    <div class="howto-slide">
+      <h2>Step 3</h2>
+      <p>Eat power pellets to turn ghosts vulnerable.</p>
+      <img src="images/power-pellet.png" alt="Pellet">
+    </div>
+
+    <div class="howto-slide">
+      <h2>Step 4</h2>
+      <p>Clear all levels to win the game!</p>
+      <img src="images/pacman-win.png" alt="Win">
+    </div>
+
+    <div class="slide-controls">
+      <button id="prev-slide">◀ Previous</button>
+      <button id="next-slide">Next ▶</button>
+    </div>
   </div>
 </div>
 

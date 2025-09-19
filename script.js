@@ -673,3 +673,27 @@ window.addEventListener('click', (e) => {
 //draw pac-man onto the board
 let pacmanCurrentIndex = pacManOrigin;
 addPacmanWithDirection("right"); // spawn facing right on load
+
+// HOW TO PLAY slides
+const slides = document.querySelectorAll('.howto-slide');
+let currentSlide = 0;
+
+function showSlide(index) {
+  slides.forEach((s, i) => s.classList.toggle('active', i === index));
+}
+
+const nextBtn = document.getElementById('next-slide');
+const prevBtn = document.getElementById('prev-slide');
+
+if (nextBtn) {
+  nextBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  });
+}
+if (prevBtn) {
+  prevBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  });
+}

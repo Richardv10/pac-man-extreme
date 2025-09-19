@@ -444,3 +444,36 @@ header .subtitle {
   font-size: 24px;
   cursor: pointer;
 }
+
+.howto-slide {
+  display: none;
+}
+.howto-slide.active {
+  display: block;
+}
+
+.modal-content img {
+  max-width: 60px;
+  margin: 10px auto;
+  display: block;
+}
+
+.slide-controls {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.slide-controls button {
+  padding: 6px 14px;
+  font-size: 14px;
+  border: 2px solid #333;
+  border-radius: 6px;
+  background-color: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.slide-controls button:hover {
+  background-color: #45a049;
+}
