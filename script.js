@@ -285,6 +285,8 @@ function resetGame() {
   // Reset layout and board
   layout = getLevel(levelNumber);
   squares.forEach((square) => (square.className = ""));
+  grid.innerHTML = ""; // Clear the grid DOM
+  squares.length = 0; // Clear the squares array
   grid.className = `grid level-${levelNumber}`;
   createBoard();
 
@@ -654,6 +656,8 @@ function checkForWin() {
     levelDisplay.innerHTML = levelNumber; // Update the level display
     layout = getLevel(levelNumber); // Load the new level layout
     squares.forEach((square) => (square.className = "")); // Clear the board
+    grid.innerHTML = ""; // Clear the grid DOM
+    squares.length = 0; // Clear the squares array
     grid.className = `grid level-${levelNumber}`; // Update background texture
     createBoard(); // Recreate the board with the new layout
     pacmanCurrentIndex = 490; // Reset Pacman's position
