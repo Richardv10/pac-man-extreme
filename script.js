@@ -649,6 +649,26 @@ function checkForWin() {
   }
 }
 
+const howtoBtn = document.querySelector('.instructions-toggle');
+const howtoModal = document.getElementById('howto-modal');
+const closeHowto = document.getElementById('close-howto');
+
+if (howtoBtn && howtoModal) {
+  howtoBtn.addEventListener('click', () => {
+    howtoModal.classList.remove('hidden');
+  });
+}
+if (closeHowto) {
+  closeHowto.addEventListener('click', () => {
+    howtoModal.classList.add('hidden');
+  });
+}
+window.addEventListener('click', (e) => {
+  if (e.target === howtoModal) {
+    howtoModal.classList.add('hidden');
+  }
+});
+
 //create Characters
 //draw pac-man onto the board
 let pacmanCurrentIndex = pacManOrigin;
