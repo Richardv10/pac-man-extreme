@@ -216,9 +216,14 @@ header .subtitle {
 }
 
 .wall::before {
-    content: "🌳";
-    font-size: 100%;
-    z-index: 0;
+    content: "";
+    background-image: url("images/tree.png");
+    background-size: cover;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    filter: brightness(50%) contrast(120%);
 }
 
 /* Level-specific overrides */
@@ -255,7 +260,7 @@ header .subtitle {
 }
 
 .blinky {
-  background: url("images/blinky.png") !important;
+  background: url("images/blinky.png");
   background-size: contain;
   z-index: 10;
 }
