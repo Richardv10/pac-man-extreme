@@ -266,9 +266,11 @@ header .subtitle {
 }
 
 .speed-control label {
-    font-size: 12px;
-    font-family: Arial, sans-serif;
-    color: #666;
+    font-size: 14px;
+    font-family: 'Goldman', cursive;
+    font-weight: bold;
+    color: #000;
+    text-shadow: 1px 1px 0px #FFF;
 }
 
 .slider {
@@ -675,9 +677,7 @@ header .subtitle {
   background-position: center;
   background-repeat: no-repeat;
   transform-origin: center;
-  /* transition: transform 0.05s linear; */
-  /* comment out if it clips the mouth */
-  /* border-radius: 0; */
+
 }
 /* Direction transforms */
 .pac-man.dir-right { transform: rotate(0deg); }
