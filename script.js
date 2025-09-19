@@ -41,8 +41,6 @@ let gameStarted = false;
 let gameRunning = false;
 let layout = getLevel(levelNumber); // Sets the map layout based on the current level number
 
-// The levels.js file stores all the levels as arrays. Here we choose which level to load.
-// Each element in 'squares' corresponds to one entry in the 'layout' array.
 
 const DIR_CLASSES = ["dir-left", "dir-right", "dir-up", "dir-down"];
 let currentDirection = "right"; // default facing
@@ -179,34 +177,28 @@ function compactWalls() {
   });
 }
 
-/* Add event listener for trash compactor toggle
+// Add event listeners when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
+  // Trash compactor button
   const compactorButton = document.getElementById("compactor-toggle");
   if (compactorButton) {
     compactorButton.addEventListener("click", toggleTrashCompactorMode);
   }
 
-    });
-*/
-
-// Start/Reset Game Functions
+  // Start/Reset button
   const startResetButton = document.getElementById("start-reset-btn");
-
-   const instructionsToggle = document.querySelector('.instructions-toggle');
-    const instructions = document.querySelector('.instructions');
-    
-    if (instructionsToggle && instructions) {
-        instructionsToggle.addEventListener('click', function() {
-            instructions.classList.toggle('hidden');
-        });
-    }
-  const startResetButton = document.getElementById('start-reset-btn');
-
   if (startResetButton) {
     startResetButton.addEventListener("click", handleStartReset);
+  }
 
-
-
+  // Instructions toggle
+  const instructionsToggle = document.querySelector('.instructions-toggle');
+  const instructions = document.querySelector('.instructions');
+  if (instructionsToggle && instructions) {
+    instructionsToggle.addEventListener('click', function() {
+      instructions.classList.toggle('hidden');
+    });
+  }
 });
 // Start/Reset Game Functions
 function handleStartReset() {
@@ -263,7 +255,7 @@ function resetGame() {
   createBoard();
 
   // Reset Pac-Man position
-  pacmanCurrentIndex = PACMAN_START;
+  pacmanCurrentIndex = pacManOrigin;
   squares[pacmanCurrentIndex].classList.add("pac-man");
 
   // Reset ghosts
@@ -349,7 +341,7 @@ function handleLifeLoss() {
 
   // reset Pac-Man position
   squares[pacmanCurrentIndex].classList.remove("pac-man", ...DIR_CLASSES);
-  pacmanCurrentIndex = PACMAN_START;
+  pacmanCurrentIndex = pacManOrigin;
   addPacmanWithDirection("right"); // respawn facing right
 }
 
