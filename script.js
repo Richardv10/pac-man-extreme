@@ -76,6 +76,9 @@ function createBoard() {
     }
   }
 }
+
+// Set initial level background
+grid.className = `grid level-${levelNumber}`;
 createBoard();
 
 // Trash Compactor Functions
@@ -603,7 +606,7 @@ function checkForWin() {
         "You Have Completed Pacman Extreme! Increase the difficulty on newgame+ by following this link https://store.steampowered.com/app/374320/DARK_SOULS_III/ "
       );
     }, 500);
-  } else if (score >= 274 && levelNumber < 3) {
+  } else if (score >= 4 && levelNumber < 3) {
     // stop each ghost
     ghosts.forEach((ghost) => clearInterval(ghost.timerId));
 
@@ -623,6 +626,7 @@ function checkForWin() {
     levelDisplay.innerHTML = levelNumber; // Update the level display
     layout = getLevel(levelNumber); // Load the new level layout
     squares.forEach((square) => (square.className = "")); // Clear the board
+    grid.className = `grid level-${levelNumber}`; // Update background texture
     createBoard(); // Recreate the board with the new layout
     pacmanCurrentIndex = 490; // Reset Pacman's position
     squares[pacmanCurrentIndex].classList.add("pac-man");
