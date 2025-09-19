@@ -14,14 +14,17 @@
         <div class="game-info">
             <h3>Score:<span id="score"></span></h3>
             <h3>Level:<span id="level"></span></h3>
-            <h3>Lives:<span id="lives"></span></h3>
-            <button id="start-reset-btn" class="game-control-btn">Start Game</button>
+            <h3>Lives:<span id="lives"></span></h3>   
         </div>
+        <button id="start-reset-btn" class="game-control-btn">Start Game<span></span></button>
         <button id="compactor-toggle" class="game-mode-btn">Enable Trash Compactor Mode</button>
         <div class="slidecontainer">
-  <input type="range" min="3000" max="12000" value="5000" class="slider" id="newHope">
+  <input type="range" min="3000" max="12000" value="5000" class="slider" id="newHope" step="1000">
+  <label for="newHope" id="compactor-speed-label">Compactor Speed</label>
 </div>
-    <!-- Mobile Controls -->
+    
+
+<!-- Mobile Controls -->
     <div class="mobile-controls">
         <div class="control-row">
             <button class="control-btn" id="up-btn">↑</button>
