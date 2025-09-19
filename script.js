@@ -252,6 +252,7 @@ function resetGame() {
   // Reset layout and board
   layout = getLevel(levelNumber);
   squares.forEach((square) => (square.className = ""));
+  grid.className = `grid level-${levelNumber}`;
   createBoard();
 
   // Reset Pac-Man position
