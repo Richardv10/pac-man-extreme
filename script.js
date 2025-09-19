@@ -194,12 +194,42 @@ document.addEventListener("DOMContentLoaded", function () {
     startResetButton.addEventListener("click", handleStartReset);
   }
 
-  // Instructions toggle
-  const instructionsToggle = document.querySelector('.instructions-toggle');
-  const instructions = document.querySelector('.instructions');
-  if (instructionsToggle && instructions) {
-    instructionsToggle.addEventListener('click', function() {
-      instructions.classList.toggle('hidden');
+  // Modal controls
+  const titleModal = document.getElementById('title-modal');
+  const startGameModal = document.getElementById('start-game-modal');
+  const closeModal = document.getElementById('close-modal');
+  const showInstructions = document.getElementById('show-instructions');
+
+  // Start game from modal
+  if (startGameModal) {
+    startGameModal.addEventListener('click', function() {
+      titleModal.classList.add('hidden');
+      if (!gameState.gameStarted) {
+        startGame();
+      }
+    });
+  }
+
+  // Close modal
+  if (closeModal) {
+    closeModal.addEventListener('click', function() {
+      titleModal.classList.add('hidden');
+    });
+  }
+
+  // Show instructions (reopen modal)
+  if (showInstructions) {
+    showInstructions.addEventListener('click', function() {
+      titleModal.classList.remove('hidden');
+    });
+  }
+
+  // Close modal when clicking outside
+  if (titleModal) {
+    titleModal.addEventListener('click', function(e) {
+      if (e.target === titleModal) {
+        titleModal.classList.add('hidden');
+      }
     });
   }
 });
