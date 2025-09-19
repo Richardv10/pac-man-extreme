@@ -8,6 +8,11 @@ body {
     box-sizing: border-box;
 }
 
+        .subtitle {
+            font-size: 1.2rem;
+            color: black;
+            margin-bottom: 20px;
+        }
 /* Game container */
 .game-container {
     width: 100%;
@@ -26,6 +31,14 @@ body {
     flex-wrap: wrap;
     box-sizing: border-box;
     background-color: burlywood;
+}
+header h1 {
+  margin-bottom: 0.2em; /* decrease space under the heading */
+}
+
+header .subtitle {
+  margin-top: 0;      /* reduce space above */
+  margin-bottom: 0.3em; /* reduce space below (adjust value as needed) */
 }
 
 .grid div {
@@ -58,6 +71,8 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    background-color: lightgrey;
+    padding: 10px;
 }
 
 .game-info h3 {
@@ -98,7 +113,17 @@ body {
 }
 /* #endregion */
 
+
 /* #region Media queries for smaller screens */
+
+#compactor-speed-label {
+    position: center;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+}
+
+/* Media queries for smaller screens */
+
 @media (max-width: 600px) {
     body {
         padding: 5px;
@@ -134,7 +159,7 @@ body {
 /* #endregion */
 
 .pac-dot {
-  background-image: url('Images/Coin.png');
+  background-image: url('images/Coin.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 75% 75%;
@@ -146,7 +171,6 @@ body {
     background-color: transparent;
 }
 
-/* #region Ghosts */
 .blinky {
   background: url("images/blinky.png");
   background-size: contain;
@@ -222,6 +246,9 @@ body {
     width: 100%;
     height: 100%;
     filter: brightness(50%) contrast(120%);
+
+  background-color: transparent;
+
 }
 
 
@@ -268,13 +295,13 @@ body {
 
 /* #region Trash Compactor Walls */
 .compactor-wall {
-    background-color: #8b0000 !important;
-    border: 2px solid #ff0000;
+    background-color: DarkGrey !important;
+    border: 2px solid Black;
     animation: compactorPulse 1s infinite alternate;
 }
 
 @keyframes compactorPulse {
-    0% { border-color: #ff0000; }
+    0% { border-color: Black; }
     100% { border-color: #ff6666; }
 }
 /* #endregion */
@@ -315,12 +342,6 @@ body {
     transform: scale(0.95);
 }
 
-/* Show mobile controls on touch devices */
-@media (hover: none) and (pointer: coarse) {
-    .mobile-controls {
-        display: block;
-    }
-}
 
 /* Show mobile controls on small screens */
 @media (max-width: 768px) {
@@ -332,16 +353,64 @@ body {
 
 /* #region Pac-Man orientation */
 .pac-man {
-  background-image: url('images/pac-man-512x512.png');
+  background-image: url('images/resized.png');
   background-size: contain;        /* show the whole sprite */
   background-position: center;
   background-repeat: no-repeat;
   transform-origin: center;
-  transition: transform 0.05s linear;
+  /* transition: transform 0.05s linear; */
   /* comment out if it clips the mouth */
   /* border-radius: 0; */
 }
+/* Instructions Styles */
+.instructions-toggle {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: #2196F3;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
+.instructions-toggle:hover {
+    background-color: #0b7dda;
+}
+
+.instructions {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    max-width: 500px;
+}
+
+.instructions.hidden {
+    display: none;
+}
+
+.instructions ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.key {
+    display: inline-block;
+    padding: 2px 6px;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    font-family: monospace;
+}
 /* Direction transforms */
 .pac-man.dir-right { transform: rotate(0deg); }
 .pac-man.dir-left  { transform: rotateY(180deg); }  /* strong horizontal flip */
