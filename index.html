@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pac-Man Extreme</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-            <header>
-            <h1>PAC-MAN EXTREME</h1>
-            <p class="subtitle">Eat all the dots, avoid the ghosts, and power up with pellets!</p>
-        </header>
+    <header>
+        <h1>PAC-MAN EXTREME</h1>
+        <p class="subtitle">Eat all the dots, avoid the ghosts, and power up with pellets!</p>
+    </header>
 
     <div class="grid"></div>
 
@@ -18,89 +20,93 @@
         <div class="game-info">
             <h3>Score:<span id="score"></span></h3>
             <h3>Level:<span id="level"></span></h3>
-            <h3>Lives:<span id="lives"></span></h3>   
+            <h3>Lives:<span id="lives"></span></h3>
         </div>
         <button id="start-reset-btn" class="game-control-btn">Start Game<span></span></button>
-<button id="compactor-toggle" class="game-mode-btn">Enable Trash Compactor Mode</button>
+        <button id="compactor-toggle" class="game-mode-btn">Enable Trash Compactor Mode</button>
 
         <button class="instructions-toggle">HOW TO PLAY</button>
         <div class="instructions hidden">
 
 
-<div id="howto-modal" class="modal hidden">
-  <div class="modal-content">
-    <span id="close-howto" class="close-btn">&times;</span>
+            <div id="howto-modal" class="modal hidden">
+                <div class="modal-content">
+                    <span id="close-howto" class="close-btn">&times;</span>
+                    <div class="howto-slide active">
+                        <h2>Step 1</h2>
+                        <p>Eat all the dots to score points.</p>
+                        <img src="Images/Coin.png" alt="Dot">
+                    </div>
 
-    <div class="howto-slide active">
-      <h2>Step 1</h2>
-      <p>Eat all the dots to score points.</p>
-      <img src="images/dot-icon.png" alt="Dot">
-    </div>
+                    <div class="howto-slide">
+                        <h2>Step 2</h2>
+                        <p>Avoid the ghosts or you will lose a life.</p>
+                        <img src="images/blinky.png" alt="Ghost">
+                    </div>
 
-    <div class="howto-slide">
-      <h2>Step 2</h2>
-      <p>Avoid the ghosts or you will lose a life.</p>
-      <img src="images/ghost-icon.png" alt="Ghost">
-    </div>
+                    <div class="howto-slide">
+                        <h2>Step 3</h2>
+                        <p>Eat power pellets to turn ghosts vulnerable.</p>
+                        <img src="images/ScaredGhost.png" alt="Pellet">
+                    </div>
 
-    <div class="howto-slide">
-      <h2>Step 3</h2>
-      <p>Eat power pellets to turn ghosts vulnerable.</p>
-      <img src="images/power-pellet.png" alt="Pellet">
-    </div>
-
-    <div class="howto-slide">
-      <h2>Step 4</h2>
-      <p>Clear all levels to win the game!</p>
-      <img src="images/pacman-win.png" alt="Win">
-    </div>
-
-    <div class="slide-controls">
-      <button id="prev-slide">◀ Previous</button>
-      <button id="next-slide">Next ▶</button>
-    </div>
-  </div>
-</div>
+                    <div class="howto-slide">
+                        <h2>Step 4</h2>
+                        <p>Clear all levels to win the game!</p>
+                        <img src="images/pac-man-512x512.png" alt="Win">
+                    </div>
 
 
-<h3>PAC-MAN EXTREME - GAME GUIDE</h3>
-    <ul>
-        <li>🎮 <strong>Movement:</strong> Use <span class="key">Arrow Keys</span> or touch controls to navigate Pac-Man</li>
-        <li>⚡ <strong>Power Pellets:</strong> Eat <span style="color:green">green power pellets</span> to temporarily turn ghosts blue and vulnerable</li>
-        <li>👻 <strong>Scared Ghosts:</strong> Eat blue ghosts for bonus points (100 points each)</li>
-        <li>🌀 <strong>Tunnels:</strong> Use the side tunnels to teleport to the opposite side of the maze</li>
-        <li>🌳 <strong>Walls:</strong> Avoid walls marked with trees - you can't pass through them</li>
-        <li>💀 <strong>Ghost Lair:</strong> The center area is where ghosts spawn - avoid entering it</li>
-        <li>💥 <strong>Trash Compactor Mode:</strong> When enabled, walls will gradually close in from top and bottom</li>
-        <li>🎚️ <strong>Difficulty:</strong> Adjust the slider to change compactor speed (lower = faster)</li>
-        <li>⭐ <strong>Level Progression:</strong> Clear all dots to advance to more challenging levels</li>
-        <li>🔁 <strong>Reset:</strong> Use the Reset button to start a new game at any time</li>
-    </ul>
-    <p><strong>Pro Tip:</strong> The game board needs focus for keyboard controls - click on it first!</p>
+                    <div class="slide-controls">
+                        <button id="prev-slide">◀ Previous</button>
+                        <button id="next-slide">Next ▶</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <h3>PAC-MAN EXTREME - GAME GUIDE</h3>
+            <ul>
+                <li>🎮 <strong>Movement:</strong> Use <span class="key">Arrow Keys</span> or touch controls to navigate
+                    Pac-Man</li>
+                <li>⚡ <strong>Power Pellets:</strong> Eat <span style="color:green">green power pellets</span> to
+                    temporarily turn ghosts blue and vulnerable</li>
+                <li>👻 <strong>Scared Ghosts:</strong> Eat blue ghosts for bonus points (100 points each)</li>
+                <li>🌀 <strong>Tunnels:</strong> Use the side tunnels to teleport to the opposite side of the maze</li>
+                <li>🌳 <strong>Walls:</strong> Avoid walls marked with trees - you can't pass through them</li>
+                <li>💀 <strong>Ghost Lair:</strong> The center area is where ghosts spawn - avoid entering it</li>
+                <li>💥 <strong>Trash Compactor Mode:</strong> When enabled, walls will gradually close in from top and
+                    bottom</li>
+                <li>🎚️ <strong>Difficulty:</strong> Adjust the slider to change compactor speed (lower = faster)</li>
+                <li>⭐ <strong>Level Progression:</strong> Clear all dots to advance to more challenging levels</li>
+                <li>🔁 <strong>Reset:</strong> Use the Reset button to start a new game at any time</li>
+            </ul>
+            <p><strong>Pro Tip:</strong> The game board needs focus for keyboard controls - click on it first!</p>
 
 
 
-</div>
+        </div>
 
         <div class="slidecontainer">
-  <input type="range" min="3000" max="12000" value="5000" class="slider" id="newHope" step="1000">
-  <label for="newHope" id="compactor-speed-label">Compactor Speed</label>
-</div>
-    
+            <input type="range" min="3000" max="12000" value="5000" class="slider" id="newHope" step="1000">
+            <label for="newHope" id="compactor-speed-label">Compactor Speed</label>
+        </div>
 
-<!-- Mobile Controls -->
-    <div class="mobile-controls">
-        <div class="control-row">
-            <button class="control-btn" id="up-btn">↑</button>
+
+        <!-- Mobile Controls -->
+        <div class="mobile-controls">
+            <div class="control-row">
+                <button class="control-btn" id="up-btn">↑</button>
+            </div>
+            <div class="control-row">
+                <button class="control-btn" id="left-btn">←</button>
+                <button class="control-btn" id="down-btn">↓</button>
+                <button class="control-btn" id="right-btn">→</button>
+            </div>
         </div>
-        <div class="control-row">
-            <button class="control-btn" id="left-btn">←</button>
-            <button class="control-btn" id="down-btn">↓</button>
-            <button class="control-btn" id="right-btn">→</button>
-        </div>
-    </div>
     </div>
     <script src="levels.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
