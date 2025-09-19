@@ -7,53 +7,88 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-            <header>
-            <h1>PAC-MAN EXTREME</h1>
-            <p class="subtitle">Eat all the dots, avoid the ghosts, and power up with pellets!</p>
-        </header>
-
-    <div class="grid"></div>
-
-    <div class="container">
-        <div class="game-info">
-            <h3>Score:<span id="score"></span></h3>
-            <h3>Level:<span id="level"></span></h3>
-            <h3>Lives:<span id="lives"></span></h3>   
-        </div>
-        <button id="start-reset-btn" class="game-control-btn">Start Game<span></span></button>
-
-        <button class="instructions-toggle">HOW TO PLAY</button>
-        <button id="compactor-toggle" class="game-mode-btn">Enable Trash Compactor Mode</button>
-        <div class="instructions hidden">
-    <ul>
-        <li>Use the <span class="key">Arrow Keys</span> to navigate Pac-Man through the maze</li>
-        <li>Eat all the <span style="color:green">pac-dots</span> to advance to the next level</li>
-        <li>Avoid the ghosts - they will chase you!</li>
-        <li>Eat <span style="color:green">power pellets</span> to temporarily turn the ghosts blue and vulnerable</li>
-        <li>Eat blue ghosts for extra points</li>
-        <li>Use the tunnels on the left and right to teleport to the other side</li>
-        <li><strong>Note:</strong> Arrow keys only work when the game board is focused (click on it first)</li>
-    </ul>
-</div>
-
-        <div class="slidecontainer">
-  <input type="range" min="3000" max="12000" value="5000" class="slider" id="newHope" step="1000">
-  <label for="newHope" id="compactor-speed-label">Compactor Speed</label>
-</div>
-    
-
-<!-- Mobile Controls -->
-    <div class="mobile-controls">
-        <div class="control-row">
-            <button class="control-btn" id="up-btn">↑</button>
-        </div>
-        <div class="control-row">
-            <button class="control-btn" id="left-btn">←</button>
-            <button class="control-btn" id="down-btn">↓</button>
-            <button class="control-btn" id="right-btn">→</button>
+    <!-- Title/Instructions Modal -->
+    <div id="title-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>PAC-MAN EXTREME</h1>
+                <p class="subtitle">Pac-man is back! and he's found a haunted trash compactor!</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="instructions-content">
+                    <h2>HOW TO PLAY</h2>
+                    <ul>
+                        <li>Use the <span class="key">Arrow Keys</span> to navigate Pac-Man through the maze</li>
+                        <li>Eat all the pac-dots to advance to the next level</li>
+                        <li>Avoid the ghosts </li>
+                        <li>Eat power pellets to temporarily turn the ghosts blue and vulnerable</li>
+                        <li>Eat blue ghosts for extra points</li>
+                        <li>Use the tunnels on the left and right to teleport to the other side</li>
+                        <li>Activate Compactor mode! the walls will close in on you, best scran all the munchies before they do!</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button id="close-modal" class="modal-close-btn">CLOSE</button>
+            </div>
         </div>
     </div>
+
+   <div class="game-container">
+        <!-- Game Board -->
+        <div class="grid"></div>
+
+<!-- mobile controls -->
+         <div class="mobile-controls">
+                <div class="control-row">
+                    <button class="control-btn" id="up-btn">↑</button>
+                </div>
+                <div class="control-row">
+                    <button class="control-btn" id="left-btn">←</button>
+                    <button class="control-btn" id="down-btn">↓</button>
+                    <button class="control-btn" id="right-btn">→</button>
+                </div>
+            </div>
+        <!-- Game Controls Panel -->
+        <div class="controls-panel">
+            <!-- Scoreboard -->
+            <div class="game-info">
+                <div class="stat-item">
+                    <span class="stat-label">Score</span>
+                    <span class="stat-value" id="score">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Level</span>
+                    <span class="stat-value" id="level">1</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Lives</span>
+                    <span class="stat-value" id="lives">3</span>
+                </div>
+            </div>
+
+            <!-- Primary Action Buttons -->
+            <div class="action-buttons">
+                <button id="start-reset-btn" class="game-control-btn">Start Game</button>
+                <button id="show-instructions" class="instructions-toggle">HOW TO PLAY</button>
+            </div>
+
+            <!-- Game Mode Controls -->
+            <div class="game-mode-controls">
+                <button id="compactor-toggle" class="game-mode-btn">Enable Trash Compactor Mode</button>
+                <div class="speed-control">
+                    <label for="newHope">Compactor Speed</label>
+                    <input type="range" min="3000" max="12000" value="5000" class="slider" id="newHope" step="1000">
+                </div>
+            </div>
+
+            <!-- Remove the old inline instructions -->
+
+        </div>
     </div>
+
     <script src="levels.js"></script>
     <script src="script.js"></script>
 </body>
