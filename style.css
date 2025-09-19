@@ -202,7 +202,7 @@ header .subtitle {
 }
 
 .blinky {
-  background: url("images/blinky.png") !important;
+  background: url("images/blinky.png");
   background-size: contain;
   z-index: 10;
 }
