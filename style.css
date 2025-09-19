@@ -152,7 +152,7 @@ body {
     width: 100%;
     max-width: 560px;
     aspect-ratio: 1 / 1; /* Keeps it square */
-    border: 2px solid #333;
+    border: 6px solid #333;
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
