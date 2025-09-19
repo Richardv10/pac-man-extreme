@@ -7,9 +7,9 @@ let levelNumber = 1; // Start at level 1
 let currentLevel = levelNumber; // Track the current level
 levelDisplay.innerHTML = currentLevel;
 const grid = document.querySelector(".grid");
-function disableScroll() { 
-  document.body.classList.add("remove-scrolling"); 
-} 
+function disableScroll() {
+  document.body.classList.add("remove-scrolling");
+}
 const pacManOrigin = 490;
 let isInvulnerable = false;
 
@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const instructionsToggle = document.querySelector('.instructions-toggle');
   const instructions = document.querySelector('.instructions');
   if (instructionsToggle && instructions) {
-    instructionsToggle.addEventListener('click', function() {
+    instructionsToggle.addEventListener('click', function () {
       instructions.classList.toggle('hidden');
     });
   }
@@ -453,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const downBtn = document.getElementById("down-btn");
   const leftBtn = document.getElementById("left-btn");
   const rightBtn = document.getElementById("right-btn");
-
+ 
   if (upBtn)
     upBtn.addEventListener("touchstart", (e) => {
       e.preventDefault();
@@ -474,6 +474,16 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       movePacmanInDirection("right");
     });
+      const instructionsToggle = document.querySelector('.instructions-toggle');
+  const instructions = document.querySelector('.instructions');
+
+  if (instructionsToggle && instructions) {
+    instructionsToggle.addEventListener('click', function () {
+      instructions.classList.remove('hidden');
+
+    });
+  }
+
 });
 
 // What happens when you eat a pac-dot
@@ -613,8 +623,8 @@ function checkForWin() {
     setTimeout(function () {
       alert(
         "You Have ruthlessly dominated Level " +
-          levelNumber +
-          "! Get ready for the next nailbiting adventure!"
+        levelNumber +
+        "! Get ready for the next nailbiting adventure!"
       );
     }, 500);
     levelNumber += 1; // Increase the level number

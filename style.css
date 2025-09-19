@@ -8,11 +8,12 @@ body {
     box-sizing: border-box;
 }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: black;
-            margin-bottom: 20px;
-        }
+.subtitle {
+    font-size: 1.2rem;
+    color: black;
+    margin-bottom: 20px;
+}
+
 /* Game container */
 .game-container {
     width: 100%;
@@ -25,26 +26,33 @@ body {
 .grid {
     width: 100%;
     max-width: 560px;
-    aspect-ratio: 1 / 1; /* Keeps it square */
+    aspect-ratio: 1 / 1;
+    /* Keeps it square */
     border: 1px solid black;
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
     background-color: burlywood;
 }
+
 header h1 {
-  margin-bottom: 0.2em; /* decrease space under the heading */
+    margin-bottom: 0.2em;
+    /* decrease space under the heading */
 }
 
 header .subtitle {
-  margin-top: 0;      /* reduce space above */
-  margin-bottom: 0.3em; /* reduce space below (adjust value as needed) */
+    margin-top: 0;
+    /* reduce space above */
+    margin-bottom: 0.3em;
+    /* reduce space below (adjust value as needed) */
 }
 
 
 .grid div {
-    width: calc(100% / 28); /* 28 columns as per your width variable */
-    height: calc(100% / 28); /* 28 rows as per your height variable */
+    width: calc(100% / 28);
+    /* 28 columns as per your width variable */
+    height: calc(100% / 28);
+    /* 28 rows as per your height variable */
     box-sizing: border-box;
     background-color: transparent;
     position: relative;
@@ -123,12 +131,12 @@ header .subtitle {
     body {
         padding: 5px;
     }
-    
+
     .grid {
         max-width: calc(100vw - 20px);
         max-height: calc(100vw - 20px);
     }
-    
+
     .game-info {
         gap: 10px;
         font-size: 14px;
@@ -140,18 +148,20 @@ header .subtitle {
         max-width: calc(100vw - 10px);
         max-height: calc(100vw - 10px);
     }
-    
+
     .game-info h3 {
         font-size: 16px;
     }
 }
+
 /* #endregion */
 
 .pac-dot {
-  background-image: url('images/Coin.png') !important;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 75% 75%; /* shrink coin to 12×12 inside the 20×20 tile */
+    background-image: url('images/Coin.png') !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 75% 75%;
+    /* shrink coin to 12×12 inside the 20×20 tile */
 }
 
 
@@ -177,10 +187,12 @@ header .subtitle {
     width: 100%;
     height: 100%;
     filter: brightness(50%) contrast(120%);
-} 
+}
+
 .level-3 .wall {
     position: relative;
 }
+
 .level-3 .wall::before {
     content: "";
     background-image: url("images/Water.png");
@@ -189,6 +201,7 @@ header .subtitle {
     position: absolute;
     width: 100%;
     height: 100%;
+}
 
 .power-pellet {
     background: url("images/lightning-bolt-16.png") no-repeat center;
@@ -197,29 +210,29 @@ header .subtitle {
 }
 
 .blinky {
-  background: url("images/blinky.png") !important;
-  background-size: contain;
+    background: url("images/blinky.png") !important;
+    background-size: contain;
 }
 
 .pinky {
-  background: url("images/pinky.png");
-  background-size: contain;
+    background: url("images/pinky.png");
+    background-size: contain;
 }
 
 .inky {
-  background: url("images/inky.png");
-  background-size: contain;
+    background: url("images/inky.png");
+    background-size: contain;
 }
 
 .clyde {
-  background: url("images/clyde.png");
-  background-size: contain;
+    background: url("images/clyde.png");
+    background-size: contain;
 }
 
 .scared-ghost {
-  background: url("images/ScaredGhost.png");
-  background-size: contain;
-  background-color: transparent;
+    background: url("images/ScaredGhost.png");
+    background-size: contain;
+    background-color: transparent;
 }
 
 /* Game Mode Button */
@@ -270,13 +283,19 @@ header .subtitle {
 }
 
 @keyframes compactorPulse {
-    0% { border-color: Black; }
-    100% { border-color: #ff6666; }
+    0% {
+        border-color: Black;
+    }
+
+    100% {
+        border-color: #ff6666;
+    }
 }
 
 /* Mobile Controls */
 .mobile-controls {
-    display: none; /* Hidden by default, shown on mobile */
+    display: none;
+    /* Hidden by default, shown on mobile */
     margin-top: 20px;
     user-select: none;
 }
@@ -320,15 +339,17 @@ header .subtitle {
 
 /* Pac-Man orientation */
 .pac-man {
-  background-image: url('images/resized.png');
-  background-size: contain;        /* show the whole sprite */
-  background-position: center;
-  background-repeat: no-repeat;
-  transform-origin: center;
-  /* transition: transform 0.05s linear; */
-  /* comment out if it clips the mouth */
-  /* border-radius: 0; */
+    background-image: url('images/resized.png');
+    background-size: contain;
+    /* show the whole sprite */
+    background-position: center;
+    background-repeat: no-repeat;
+    transform-origin: center;
+    /* transition: transform 0.05s linear; */
+    /* comment out if it clips the mouth */
+    /* border-radius: 0; */
 }
+
 /* Instructions Styles */
 .instructions-toggle {
     margin: 10px 0;
@@ -378,9 +399,21 @@ header .subtitle {
     border-radius: 4px;
     font-family: monospace;
 }
-/* Direction transforms */
-.pac-man.dir-right { transform: rotate(0deg); }
-.pac-man.dir-left  { transform: rotateY(180deg); }  /* strong horizontal flip */
-.pac-man.dir-up    { transform: rotate(-90deg); }
-.pac-man.dir-down  { transform: rotate(90deg); }
 
+/* Direction transforms */
+.pac-man.dir-right {
+    transform: rotate(0deg);
+}
+
+.pac-man.dir-left {
+    transform: rotateY(180deg);
+}
+
+/* strong horizontal flip */
+.pac-man.dir-up {
+    transform: rotate(-90deg);
+}
+
+.pac-man.dir-down {
+    transform: rotate(90deg);
+}
