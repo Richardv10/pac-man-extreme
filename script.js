@@ -636,7 +636,7 @@ function checkForWin() {
         "You Have Completed Pacman Extreme! Jolly well done"
       );
     }, 500);
-  } else if (score >= 4 && levelNumber < 3) {
+  } else if (score >= 274 && levelNumber < 3) {
     // stop each ghost
     ghosts.forEach((ghost) => clearInterval(ghost.timerId));
 
