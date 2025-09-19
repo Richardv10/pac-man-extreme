@@ -152,7 +152,7 @@ body {
     width: 100%;
     max-width: 560px;
     aspect-ratio: 1 / 1; /* Keeps it square */
-    border: 2px solid #333;
+    border: 6px solid #333;
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
@@ -181,7 +181,6 @@ header .subtitle {
   margin-top: 0;      /* reduce space above */
   margin-bottom: 0.3em; /* reduce space below (adjust value as needed) */
 }
-
 
 .grid div {
     width: calc(100% / 28); /* 28 columns as per your width variable */
@@ -280,7 +279,7 @@ header .subtitle {
     outline: none;
 }
 
-/* Game Control Button (Start/Reset) */
+/* #region Game Control Button (Start/Reset) */
 .game-control-btn {
     padding: 12px 24px;
     font-size: 16px;
@@ -323,6 +322,7 @@ header .subtitle {
 .instructions-toggle:hover {
     background-color: #4A7FE7;
 }
+
 
 /* Game Mode Button */
 .game-mode-btn {
@@ -400,20 +400,68 @@ header .subtitle {
     }
 }
 
+@media (max-width: 480px) {
+  .wall::before {
+    font-size: 50%;  /* much smaller for mobile */
+  }
+}
+
 .pac-dot {
   background-image: url('images/Coin.png');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 75% 75%; /* shrink coin to 12×12 inside the 20×20 tile */
+  background-size: 75% 75%;
 }
 
-
-.wall {
+.power-pellet {
+    background: url("images/lightning.png") no-repeat center;
+    background-size: 100% 100%;
     background-color: transparent;
 }
 
+.blinky {
+  background: url("images/blinky.png");
+  background-size: contain;
+}
+
+.pinky {
+  background: url("images/pinky.png");
+  background-size: contain;
+}
+
+.inky {
+  background: url("images/inky.png");
+  background-size: contain;
+}
+
+.clyde {
+  background: url("images/clyde.png");
+  background-size: contain;
+}
+
+.scared-ghost {
+  background: url("images/ScaredGhost.png");
+  background-size: contain;
+}
+/* #endregion */
+
+/* Base walls (default) */
+.wall {
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .wall::before {
-    content: "🌳";
+    content: "";
+    background-image: url("images/tree.png");
+    background-size: cover;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    filter: brightness(50%) contrast(120%);
 }
 
 /* Level-specific overrides */
@@ -444,7 +492,7 @@ header .subtitle {
     height: 100%;
 }
 .power-pellet {
-    background: url("images/pill.png") no-repeat center;
+    background: url("images/bluebolt.png") no-repeat center;
     background-size: 100% 100%;
     background-color: transparent;
 }
@@ -474,7 +522,7 @@ header .subtitle {
 }
 
 .scared-ghost {
-  background: url("images/ScaredGhost.png");
+  background: url("images/ghostScared.png");
   background-size: contain;
   background-color: transparent;
 }
@@ -559,8 +607,9 @@ header .subtitle {
     background-color: #666;
     transform: none;
 }
+/* #endregion */
 
-/* Trash Compactor Walls */
+/* #region Trash Compactor Walls */
 .compactor-wall {
     background-color: DarkGrey !important;
     border: 2px solid Black;
@@ -571,8 +620,9 @@ header .subtitle {
     0% { border-color: Black; }
     100% { border-color: #ff6666; }
 }
+/* #endregion */
 
-/* Mobile Controls */
+/* #region Mobile Controls */
 .mobile-controls {
     display: none; /* Hidden by default, shown on mobile */
     margin-top: 20px;
@@ -616,8 +666,9 @@ header .subtitle {
         display: block;
     }
 }
+/* #endregion */
 
-/* Pac-Man orientation */
+/* #region Pac-Man orientation */
 .pac-man {
   background-image: url('images/resized.png');
   background-size: contain;        /* show the whole sprite */
