@@ -606,7 +606,7 @@ function checkForWin() {
         "You Have Completed Pacman Extreme! Increase the difficulty on newgame+ by following this link https://store.steampowered.com/app/374320/DARK_SOULS_III/ "
       );
     }, 500);
-  } else if (score >= 4 && levelNumber < 3) {
+  } else if (score >= 274 && levelNumber < 3) {
     // stop each ghost
     ghosts.forEach((ghost) => clearInterval(ghost.timerId));
 
